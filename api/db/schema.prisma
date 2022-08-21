@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -8,11 +8,62 @@ generator client {
   binaryTargets = "native"
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Workout {
+  id        Int        @id @default(autoincrement())
+  name      String
+  done      Boolean
+  setGroups SetGroup[]
+
+  templateId Int?
+  template   Template? @relation(fields: [templateId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model SetGroup {
+  id   Int   @id @default(autoincrement())
+  sets Set[]
+
+  exerciseId Int
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+
+  workoutId Int
+  workout   Workout @relation(fields: [workoutId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Set {
+  id     Int     @id @default(autoincrement())
+  weight Int?
+  reps   Int?
+  done   Boolean
+
+  setGroupId Int
+  setGroup   SetGroup @relation(fields: [setGroupId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Exercise {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  setGroups SetGroup[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Template {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  workouts Workout[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
