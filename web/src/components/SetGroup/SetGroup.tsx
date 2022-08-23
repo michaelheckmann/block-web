@@ -1,15 +1,21 @@
 import { useFormContext, useFieldArray } from '@redwoodjs/forms'
-import Set, { SetType } from 'src/components/Set/Set'
-import { FormType } from 'src/pages/HomePage/HomePage'
+import Set, { SetComponentType } from 'src/components/Set/Set'
+import { FormType } from 'src/components/Workout/WorkoutForm'
 import SetWrapper from 'src/components/micro/SetWrapper'
 import ActionMenu from '../micro/ActionMenu'
 import ExerciseModal from '../micro/ExerciseModal'
+import { useEffect } from 'react'
 
-export type SetGroupType = {
-  exercise: string
-  sets: SetType[]
+type ExerciseComponentType = {
+  name: string
 }
-interface Props extends SetGroupType {
+
+export type SetGroupComponentType = {
+  exercise: ExerciseComponentType
+  sets: SetComponentType[]
+}
+
+interface Props extends SetGroupComponentType {
   setGroupIndex: number
 }
 

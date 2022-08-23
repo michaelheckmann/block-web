@@ -1,9 +1,9 @@
 import { useForm, useFieldArray, FormProvider } from '@redwoodjs/forms'
 import React from 'react'
-import SetGroup, { SetGroupType } from 'src/components/SetGroup'
-import { DoneSetProps, FilledSetProps, NewSetProps } from './SetContext'
+import SetGroup, { SetGroupComponentType } from 'src/components/SetGroup'
+import { DoneSetProps, FilledSetProps, NewSetProps } from '../Set/SetContext'
 
-function SetGroupContext(args: SetGroupType) {
+function SetGroupContext(args: SetGroupComponentType) {
   const methods = useForm({
     defaultValues: {
       setGroups: [args],
@@ -27,27 +27,29 @@ function SetGroupContext(args: SetGroupType) {
 
 export default SetGroupContext
 
-export const EmptySetGroupProps: SetGroupType = {
-  exercise: 'New Exercise',
+export const EmptySetGroupProps: SetGroupComponentType = {
+  exercise: { name: 'New Exercise' },
   sets: [],
 }
 
-export const OneSetGroupProps: SetGroupType = {
+export const OneSetGroupProps: SetGroupComponentType = {
   ...EmptySetGroupProps,
   sets: [FilledSetProps],
 }
 
-export const ThreeSetGroupProps: SetGroupType = {
+export const ThreeSetGroupProps: SetGroupComponentType = {
   ...EmptySetGroupProps,
   sets: [FilledSetProps, FilledSetProps, FilledSetProps],
 }
 
-export const RealisticSetGroupProps: SetGroupType = {
-  exercise: 'Single Leg Hip Thrust',
+export const RealisticSetGroupProps: SetGroupComponentType = {
+  exercise: { name: 'Single Leg Hip Thrust' },
   sets: [DoneSetProps, DoneSetProps, FilledSetProps, FilledSetProps],
 }
 
-export const LongNameSetGroupProps: SetGroupType = {
-  exercise: 'Single Leg Hip Thrust (Smith Machine) [to failure]',
+export const LongNameSetGroupProps: SetGroupComponentType = {
+  exercise: {
+    name: 'Single Leg Hip Thrust (Smith Machine) [to failure]',
+  },
   sets: [DoneSetProps, DoneSetProps, FilledSetProps, FilledSetProps],
 }

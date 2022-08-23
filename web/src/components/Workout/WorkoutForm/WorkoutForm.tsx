@@ -1,106 +1,97 @@
-import {
-  Form,
-  FormError,
-  FieldError,
-  Label,
-  TextField,
-  CheckboxField,
-  NumberField,
-  Submit,
-} from '@redwoodjs/forms'
+import { FormProvider, useFieldArray, useForm } from '@redwoodjs/forms'
+import { useCallback, useEffect } from 'react'
+import SetGroup, { SetGroupComponentType } from 'src/components/SetGroup'
+import { debounce } from 'src/utils/debounce'
+import { EditWorkoutById } from 'types/graphql'
 
+export type FormType = {
+  setGroups: SetGroupComponentType[]
+}
 
+const defaultSetGroup = {
+  exercise: {
+    name: 'new',
+  },
+  sets: [
+    {
+      previous: { weight: undefined, reps: undefined },
+      weight: undefined,
+      reps: undefined,
+      done: false,
+    },
+  ],
+}
 
-const WorkoutForm = (props) => {
-  const onSubmit = (data) => {
+type Props = {
+  workout: EditWorkoutById['workout']
+  onSave: (input: FormType) => void
+}
 
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    props.onSave(data, props?.workout?.id)
-  }
+const WorkoutForm = ({ workout, onSave }: Props) => {
+  const methods = useForm<FormType>({
+    defaultValues: {
+      setGroups: workout.setGroups.map((setGroup) => ({
+        exercise: {
+          name: setGroup.exercise.name,
+        },
+        sets: setGroup.sets.map((set) => ({
+          weight: set.weight,
+          reps: set.reps,
+          done: set.done,
+          previous: { weight: undefined, reps: undefined },
+        })),
+      })),
+    },
+  })
+
+  const { control, handleSubmit, watch } = methods
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'setGroups',
+  })
+
+  const formData = watch()
+
+  useEffect(() => {
+    logData(formData)
+  }, [formData])
+
+  const logData = useCallback(
+    debounce((d) => onSave(d)),
+    []
+  )
+
+  const onSubmit = handleSubmit((values) => {
+    console.log(values)
+  })
 
   return (
-    <div className="rw-form-wrapper">
-      <Form onSubmit={onSubmit} error={props.error}>
-        <FormError
-          error={props.error}
-          wrapperClassName="rw-form-error-wrapper"
-          titleClassName="rw-form-error-title"
-          listClassName="rw-form-error-list"
-        />
-      
-        <Label
-          name="name"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Name
-        </Label>
-        
-          <TextField
-            name="name"
-            defaultValue={props.workout?.name}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-            validation={{ required: true }}
-          />
-        
+    <div className="">
+      <h1>{workout.name}!</h1>
+      <FormProvider {...methods}>
+        <form onSubmit={onSubmit}>
+          <section className="flex flex-col gap-3">
+            {fields.map((item, setGroupIndex) => (
+              <div key={item.id} className="flex flex-col">
+                <SetGroup {...item} setGroupIndex={setGroupIndex} />
+                <button
+                  className="rounded bg-red-300 p-1 font-semibold"
+                  onClick={() => remove(setGroupIndex)}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
 
-        <FieldError name="name" className="rw-field-error" />
-
-        <Label
-          name="done"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Done
-        </Label>
-        
-          <CheckboxField
-            name="done"
-            defaultChecked={props.workout?.done}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-          />
-        
-
-        <FieldError name="done" className="rw-field-error" />
-
-        <Label
-          name="templateId"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Template id
-        </Label>
-        
-          <NumberField
-            name="templateId"
-            defaultValue={props.workout?.templateId}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-          />
-        
-
-        <FieldError name="templateId" className="rw-field-error" />
-
-        <div className="rw-button-group">
-          <Submit
-            disabled={props.loading}
-            className="rw-button rw-button-blue"
-          >
-            Save
-          </Submit>
-        </div>
-      </Form>
+            <button
+              className="rounded bg-green-300 p-2 font-semibold"
+              onClick={() => append(defaultSetGroup)}
+            >
+              Add
+            </button>
+          </section>
+        </form>
+      </FormProvider>
     </div>
   )
 }

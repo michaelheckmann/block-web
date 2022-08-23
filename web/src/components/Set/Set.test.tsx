@@ -4,7 +4,7 @@ import SetContext, {
   FilledSetProps,
   NewSetProps,
   SetWithPreviousProps,
-} from 'src/utils/components/SetContext'
+} from 'src/components/Set/SetContext'
 import userEvent from '@testing-library/user-event'
 
 describe('Set', () => {

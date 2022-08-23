@@ -1,8 +1,8 @@
 import { Form } from '@redwoodjs/forms'
 import React from 'react'
-import Set, { SetType } from 'src/components/Set'
+import Set, { SetComponentType } from 'src/components/Set'
 
-function SetContext(args: SetType) {
+function SetContext(args: SetComponentType) {
   return (
     <Form>
       <Set setIndex={0} setGroupIndex={0} {...args} />
@@ -12,7 +12,7 @@ function SetContext(args: SetType) {
 
 export default SetContext
 
-export const NewSetProps: SetType = {
+export const NewSetProps: SetComponentType = {
   previous: {
     weight: undefined,
     reps: undefined,
@@ -22,7 +22,7 @@ export const NewSetProps: SetType = {
   done: false,
 }
 
-export const SetWithPreviousProps: SetType = {
+export const SetWithPreviousProps: SetComponentType = {
   ...NewSetProps,
   previous: {
     weight: 10,
@@ -31,7 +31,7 @@ export const SetWithPreviousProps: SetType = {
   done: false,
 }
 
-export const FilledSetProps: SetType = {
+export const FilledSetProps: SetComponentType = {
   ...NewSetProps,
   previous: {
     weight: 10,
@@ -42,7 +42,7 @@ export const FilledSetProps: SetType = {
   done: false,
 }
 
-export const DoneSetProps: SetType = {
+export const DoneSetProps: SetComponentType = {
   ...NewSetProps,
   previous: {
     weight: 10,

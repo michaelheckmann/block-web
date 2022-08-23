@@ -4,7 +4,7 @@ import SetGroupContext, {
   OneSetGroupProps,
   RealisticSetGroupProps,
   ThreeSetGroupProps,
-} from 'src/utils/components/SetGroupContext'
+} from 'src/components/SetGroup/SetGroupContext'
 
 const Template = (args) => <SetGroupContext {...args} />
 

@@ -28,9 +28,13 @@ describe('setGroups', () => {
 
   scenario('creates a setGroup', async (scenario: StandardScenario) => {
     const result = await createSetGroup({
-      input: { workoutId: scenario.setGroup.two.workoutId },
+      input: {
+        exerciseId: scenario.setGroup.two.exerciseId,
+        workoutId: scenario.setGroup.two.workoutId,
+      },
     })
 
+    expect(result.exerciseId).toEqual(scenario.setGroup.two.exerciseId)
     expect(result.workoutId).toEqual(scenario.setGroup.two.workoutId)
   })
 
@@ -38,10 +42,10 @@ describe('setGroups', () => {
     const original = await setGroup({ id: scenario.setGroup.one.id })
     const result = await updateSetGroup({
       id: original.id,
-      input: { workoutId: scenario.setGroup.two.workoutId },
+      input: { exerciseId: scenario.setGroup.two.exerciseId },
     })
 
-    expect(result.workoutId).toEqual(scenario.setGroup.two.workoutId)
+    expect(result.exerciseId).toEqual(scenario.setGroup.two.exerciseId)
   })
 
   scenario('deletes a setGroup', async (scenario: StandardScenario) => {

@@ -2,8 +2,18 @@ import type { Prisma } from '@prisma/client'
 
 export const standard = defineScenario<Prisma.SetGroupCreateArgs>({
   setGroup: {
-    one: { data: { workout: { create: { name: 'String', done: true } } } },
-    two: { data: { workout: { create: { name: 'String', done: true } } } },
+    one: {
+      data: {
+        exercise: { create: { name: 'String' } },
+        workout: { create: { name: 'String', done: true } },
+      },
+    },
+    two: {
+      data: {
+        exercise: { create: { name: 'String' } },
+        workout: { create: { name: 'String', done: true } },
+      },
+    },
   },
 })
 

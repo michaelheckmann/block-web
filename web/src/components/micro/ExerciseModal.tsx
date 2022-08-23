@@ -7,15 +7,15 @@ const Modal = ({ exercise }) => {
   return (
     <>
       <div
-        className="px-2 py-1 transition rounded cursor-pointer bg-primary-100 hover:bg-primary-200"
+        className="cursor-pointer rounded bg-primary-100 px-2 py-1 transition hover:bg-primary-200"
         onClick={() => setShowModal(true)}
       >
-        {exercise}
+        {exercise?.name}
       </div>
       {showModal && (
         <ClickAwayListener onClickAway={() => setShowModal(false)}>
-          <div className="fixed top-0 left-0 z-20 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
-            <div className="p-5 bg-white rounded">hello</div>
+          <div className="fixed top-0 left-0 z-20 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+            <div className="rounded bg-white p-5">hello</div>
           </div>
         </ClickAwayListener>
       )}

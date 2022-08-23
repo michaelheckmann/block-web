@@ -1,8 +1,8 @@
 import { useFormContext } from '@redwoodjs/forms'
 import clsx from 'clsx'
-import { FormType } from 'src/pages/HomePage/HomePage'
+import { FormType } from '../Workout/WorkoutForm'
 
-export type SetType = {
+export type SetComponentType = {
   previous: {
     weight: number
     reps: number
@@ -12,7 +12,7 @@ export type SetType = {
   done: boolean
 }
 
-interface Props extends SetType {
+interface Props extends SetComponentType {
   setIndex: number
   setGroupIndex: number
 }

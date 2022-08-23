@@ -3,13 +3,13 @@ import SetGroupContext, {
   OneSetGroupProps,
   RealisticSetGroupProps,
   ThreeSetGroupProps,
-} from 'src/utils/components/SetGroupContext'
+} from 'src/components/SetGroup/SetGroupContext'
 import userEvent from '@testing-library/user-event'
 
 describe('SetGroup', () => {
   it('renders a set group', () => {
     render(<SetGroupContext {...ThreeSetGroupProps} />)
-    const exerciseName = screen.getByText(ThreeSetGroupProps.exercise)
+    const exerciseName = screen.getByText(ThreeSetGroupProps.exercise.name)
 
     expect(exerciseName).toBeInTheDocument()
 

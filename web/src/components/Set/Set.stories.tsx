@@ -4,7 +4,7 @@ import SetContext, {
   FilledSetProps,
   NewSetProps,
   SetWithPreviousProps,
-} from 'src/utils/components/SetContext'
+} from 'src/components/Set/SetContext'
 
 const Template = (args) => <SetContext {...args} />
 

@@ -99,15 +99,15 @@ const WorkoutsList = ({ workouts }) => {
               <td>{timeTag(workout.updatedAt)}</td>
               <td>
                 <nav className="rw-table-actions">
-                  <Link
+                  {/* <Link
                     to={routes.workout({ id: workout.id })}
                     title={'Show workout ' + workout.id + ' detail'}
                     className="rw-button rw-button-small"
                   >
                     Show
-                  </Link>
+                  </Link> */}
                   <Link
-                    to={routes.editWorkout({ id: workout.id })}
+                    to={routes.workout({ id: workout.id })}
                     title={'Edit workout ' + workout.id}
                     className="rw-button rw-button-small rw-button-blue"
                   >

@@ -43,6 +43,8 @@ export const deleteSetGroup: MutationResolvers['deleteSetGroup'] = ({ id }) => {
 export const SetGroup: SetGroupResolvers = {
   sets: (_obj, { root }) =>
     db.setGroup.findUnique({ where: { id: root.id } }).sets(),
+  exercise: (_obj, { root }) =>
+    db.setGroup.findUnique({ where: { id: root.id } }).exercise(),
   workout: (_obj, { root }) =>
     db.setGroup.findUnique({ where: { id: root.id } }).workout(),
 }

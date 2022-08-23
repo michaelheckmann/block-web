@@ -2,6 +2,8 @@ export const schema = gql`
   type SetGroup {
     id: Int!
     sets: [Set]!
+    exerciseId: Int!
+    exercise: Exercise!
     workoutId: Int!
     workout: Workout!
     createdAt: DateTime!
@@ -14,10 +16,12 @@ export const schema = gql`
   }
 
   input CreateSetGroupInput {
+    exerciseId: Int!
     workoutId: Int!
   }
 
   input UpdateSetGroupInput {
+    exerciseId: Int
     workoutId: Int
   }
 
