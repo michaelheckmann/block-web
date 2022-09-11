@@ -3,8 +3,9 @@ import SetGroupContext, {
   OneSetGroupProps,
   RealisticSetGroupProps,
   ThreeSetGroupProps,
-} from 'src/components/SetGroup/SetGroupContext'
+} from 'src/utils/context/SetGroupContext'
 import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils'
 
 describe('SetGroup', () => {
   it('renders a set group', () => {
@@ -84,7 +85,7 @@ describe('SetGroup', () => {
 
     const addSetButton = screen.getByText('Add Set', { exact: false })
     await waitFor(() => user.click(addSetButton))
-
+    await waitFor(() => new Promise((r) => setTimeout(r, 500)))
     setContainerDivs = screen.getAllByTestId('set-container-div')
     expect(setContainerDivs.length).toEqual(OneSetGroupProps.sets.length + 1)
   })
@@ -111,17 +112,20 @@ function createValuesToTest() {
     reps: {},
     done: { checked: 0, unchecked: 0 },
   }
+  RealisticSetGroupProps.exercise.latestSetGroup.sets.forEach((set) => {
+    if (set.weight) {
+      values.previousWeight[set.weight]
+        ? values.previousWeight[set.weight]++
+        : (values.previousWeight[set.weight] = 1)
+    }
+    if (set.reps) {
+      values.previousReps[set.reps]
+        ? values.previousReps[set.reps]++
+        : (values.previousReps[set.reps] = 1)
+    }
+  })
+
   RealisticSetGroupProps.sets.forEach((set) => {
-    if (set.previous.weight) {
-      values.previousWeight[set.previous.weight]
-        ? values.previousWeight[set.previous.weight]++
-        : (values.previousWeight[set.previous.weight] = 1)
-    }
-    if (set.previous.reps) {
-      values.previousReps[set.previous.reps]
-        ? values.previousReps[set.previous.reps]++
-        : (values.previousReps[set.previous.reps] = 1)
-    }
     if (set.weight) {
       values.weight[set.weight]
         ? values.weight[set.weight]++

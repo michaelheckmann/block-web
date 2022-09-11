@@ -1,12 +1,14 @@
-import { Form } from '@redwoodjs/forms'
+import { omitStoryBookArgs } from 'src/utils/functions/omitStoryBookArgs'
 import SetContext, {
   DoneSetProps,
   FilledSetProps,
   NewSetProps,
   SetWithPreviousProps,
-} from 'src/components/Set/SetContext'
+} from '../../utils/context/SetContext'
 
-const Template = (args) => <SetContext {...args} />
+const Template = (args) => {
+  return <SetContext {...args} />
+}
 
 export const NewSet = Template.bind({})
 NewSet.args = NewSetProps
@@ -22,11 +24,13 @@ DoneSet.args = DoneSetProps
 
 export default {
   title: 'Components/Set',
-  decorators: [
-    (Story) => (
-      <Form>
-        <Story />
-      </Form>
-    ),
-  ],
+  argTypes: {
+    ...omitStoryBookArgs([
+      'setGroupIndex',
+      'setIndex',
+      'setId',
+      'reps',
+      'weight',
+    ]),
+  },
 }

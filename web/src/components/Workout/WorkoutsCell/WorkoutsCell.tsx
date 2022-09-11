@@ -12,8 +12,6 @@ export const QUERY = gql`
       name
       done
       templateId
-      createdAt
-      updatedAt
     }
   }
 `
@@ -21,15 +19,11 @@ export const QUERY = gql`
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => {
-  return (
-    <div className="rw-text-center">
-      empty
-    </div>
-  )
+  return <div className="rw-text-center">empty</div>
 }
 
 export const Failure = ({ error }: CellFailureProps) => (
-  <div className="rw-cell-error">{error.message}</div>
+  <pre className="rw-cell-error">{JSON.stringify(error, null, 4)}</pre>
 )
 
 export const Success = ({ workouts }: CellSuccessProps<FindWorkouts>) => {

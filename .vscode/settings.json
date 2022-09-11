@@ -7,5 +7,7 @@
   },
   "[prisma]": {
     "editor.formatOnSave": true
-  }
+  },
+  "docwriter.style": "Auto-detect",
+  "docwriter.hotkey.mac": "⌥ + ."
 }

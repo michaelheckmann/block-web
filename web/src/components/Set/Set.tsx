@@ -1,29 +1,53 @@
-import { useFormContext } from '@redwoodjs/forms'
+import { useFormContext, useWatch } from '@redwoodjs/forms'
 import clsx from 'clsx'
-import { FormType } from '../Workout/WorkoutForm'
+import { useCallback, useEffect } from 'react'
+import { debounce } from 'src/utils/functions/debounce'
+import { SetType, WorkoutFormType } from 'src/utils/types/WorkoutFormType'
+import { useSetMutation } from '../../utils/hooks/useSetMutation'
 
-export type SetComponentType = {
+export type SetProps = SetType & {
+  setIndex: number
+  setGroupIndex: number
   previous: {
     weight: number
     reps: number
   }
-  weight: number
-  reps: number
-  done: boolean
 }
 
-interface Props extends SetComponentType {
-  setIndex: number
-  setGroupIndex: number
-}
+const Set = (props: SetProps) => {
+  const { register, getValues, formState } = useFormContext<WorkoutFormType>()
 
-const Set = (props: Props) => {
-  const { register, watch } = useFormContext<FormType>()
-  const [weight, reps, done] = watch([
-    `setGroups.${props.setGroupIndex}.sets.${props.setIndex}.weight`,
-    `setGroups.${props.setGroupIndex}.sets.${props.setIndex}.reps`,
-    `setGroups.${props.setGroupIndex}.sets.${props.setIndex}.done`,
-  ])
+  const path = `setGroups.${props.setGroupIndex}.sets.${props.setIndex}`
+  const weight = useWatch({ name: `${path}.weight` })
+  const reps = useWatch({ name: `${path}.reps` })
+  const done = useWatch({ name: `${path}.done` })
+
+  const setMutation = useSetMutation()
+  useEffect(() => {
+    // Prevent the mutation from firing on initial render
+    if (!formState.isDirty) return
+    // console.log(getValues().setGroups[props.setGroupIndex])
+    const setValues =
+      getValues().setGroups[props.setGroupIndex].sets[props.setIndex]
+    // console.log(props.setIndex, setValues)
+    saveData(setValues)
+  }, [weight, reps, done])
+
+  const saveData = useCallback(
+    debounce((setValues) => {
+      setMutation.updateSet.mutation({
+        variables: {
+          id: setValues.setId,
+          input: {
+            weight: setValues.weight,
+            reps: setValues.reps,
+            done: setValues.done,
+          },
+        },
+      })
+    }),
+    []
+  )
 
   return (
     <div
@@ -31,8 +55,8 @@ const Set = (props: Props) => {
       className={clsx(
         'flex w-full justify-between gap-3 rounded p-2 text-center text-gray-900',
         {
-          'bg-green-200': done ?? props.done,
-          'bg-transparent': !(done ?? props.done),
+          'bg-green-200': done,
+          'bg-transparent': !done,
         }
       )}
     >
@@ -66,14 +90,14 @@ const Set = (props: Props) => {
         )}
         aria-label="weight"
         type="number"
-        defaultValue={props.weight || ''}
+        defaultValue={weight || ''}
         placeholder={props.previous.weight?.toString()}
         className={clsx(
           'h-6 w-12 rounded border-0 text-center outline-none ring-gray-700 transition-all placeholder:text-gray-400 focus:ring-2 active:ring-2',
-          { 'bg-transparent': done ?? props.done },
+          { 'bg-transparent': done },
           {
             'bg-gray-200 hover:bg-gray-300 focus:bg-gray-200 active:bg-gray-200':
-              !(done ?? props.done),
+              !done,
           }
         )}
       />
@@ -90,14 +114,14 @@ const Set = (props: Props) => {
         )}
         aria-label="reps"
         type="number"
-        defaultValue={props.reps || ''}
+        defaultValue={reps || ''}
         placeholder={props.previous.reps?.toString()}
         className={clsx(
           'h-6 w-12 rounded text-center outline-none ring-gray-700 transition-all placeholder:text-gray-400 focus:ring-2 active:ring-2',
-          { 'bg-transparent': done ?? props.done },
+          { 'bg-transparent': done },
           {
             'bg-gray-200 hover:bg-gray-300 focus:bg-gray-200 active:bg-gray-200':
-              !(done ?? props.done),
+              !done,
           }
         )}
       />
@@ -107,11 +131,9 @@ const Set = (props: Props) => {
         htmlFor={`setGroups.${props.setGroupIndex}.sets.${props.setIndex}.done`}
         className={clsx(
           'flex h-6 w-7 cursor-pointer items-center justify-center rounded transition',
-          { 'bg-green-400 text-white': done ?? props.done },
+          { 'bg-green-400 text-white': done },
           {
-            'bg-gray-200 text-gray-900 hover:bg-gray-300': !(
-              done ?? props.done
-            ),
+            'bg-gray-200 text-gray-900 hover:bg-gray-300': !done,
           }
         )}
       >
@@ -123,7 +145,7 @@ const Set = (props: Props) => {
         )}
         aria-label="done"
         type="checkbox"
-        defaultChecked={props.done}
+        defaultChecked={done}
         id={`setGroups.${props.setGroupIndex}.sets.${props.setIndex}.done`}
         hidden
       />

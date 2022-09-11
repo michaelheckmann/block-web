@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 
 const Modal = ({ exercise }) => {
-  const [showModal, setShowModal] = useState(true)
+  const [showModal, setShowModal] = useState(false)
   return (
     <>
       <div

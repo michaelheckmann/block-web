@@ -6,6 +6,7 @@ const genericFunction = (arg) => {
   console.log(arg)
 }
 
+/* It's a React component that renders a menu with a list of actions. */
 function ActionMenu() {
   const [popup, setPopup] = useState(false)
   const actions = [
@@ -41,10 +42,10 @@ function ActionMenu() {
             {actions.map(({ emoji, label, action }) => (
               <li
                 key={label}
-                className="flex items-center justify-start gap-1 px-3 py-3 cursor-pointer transition-color hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100"
+                className="transition-color flex cursor-pointer items-center justify-start gap-1 px-3 py-3 hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-100"
                 onClick={action}
               >
-                <div className="flex items-center justify-center w-5">
+                <div className="flex w-5 items-center justify-center">
                   {emoji}
                 </div>
                 <div className="">{label}</div>

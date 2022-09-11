@@ -1,37 +1,75 @@
 import { useFormContext, useFieldArray } from '@redwoodjs/forms'
-import Set, { SetComponentType } from 'src/components/Set/Set'
-import { FormType } from 'src/components/Workout/WorkoutForm'
+import Set from 'src/components/Set/Set'
 import SetWrapper from 'src/components/micro/SetWrapper'
-import ActionMenu from '../micro/ActionMenu'
-import ExerciseModal from '../micro/ExerciseModal'
-import { useEffect } from 'react'
+import ActionMenu from 'src/components/micro/ActionMenu'
+import ExerciseModal from 'src/components/micro/ExerciseModal'
+import { useSetMutation } from 'src/utils/hooks/useSetMutation'
+import {
+  SetGroupType,
+  WorkoutFormType,
+  LatestSetGroupType,
+} from 'src/utils/types/WorkoutFormType'
 
-type ExerciseComponentType = {
-  name: string
-}
-
-export type SetGroupComponentType = {
-  exercise: ExerciseComponentType
-  sets: SetComponentType[]
-}
-
-interface Props extends SetGroupComponentType {
+export type SetGroupProps = SetGroupType & {
   setGroupIndex: number
 }
 
-const defaultSet = {
-  previous: { weight: undefined, reps: undefined },
+export const defaultSet = {
   done: false,
   weight: undefined,
   reps: undefined,
 }
 
-const SetGroup = ({ exercise, setGroupIndex }: Props) => {
-  const { control } = useFormContext<FormType>()
+const fallbackPreviousValues = {
+  weight: undefined,
+  reps: undefined,
+}
+
+const SetGroup = ({ exercise, setGroupIndex }: SetGroupProps) => {
+  const { control, getValues } = useFormContext<WorkoutFormType>()
   const { fields, append, remove } = useFieldArray({
     control,
     name: `setGroups.${setGroupIndex}.sets` as 'setGroups.0.sets',
   })
+
+  const setMutation = useSetMutation({
+    onCreationSuccess: ({ createSet }) => {
+      console.log('SET CREATED')
+      append({
+        setId: createSet.id,
+        weight: createSet.weight,
+        reps: createSet.reps,
+        done: createSet.done,
+      })
+    },
+    onDeleteSuccess: ({ deleteSet }) => {
+      console.log('SET DELETED')
+      remove(
+        getValues().setGroups[setGroupIndex].sets.findIndex(
+          (set) => set.setId === deleteSet.id
+        )
+      )
+    },
+  })
+
+  const handleAppend = () => {
+    setMutation.createSet.mutation({
+      variables: {
+        input: {
+          ...defaultSet,
+          setGroupId: getValues().setGroups[setGroupIndex].setGroupId,
+        },
+      },
+    })
+  }
+
+  const handleDelete = (setIndex) => {
+    setMutation.deleteSet.mutation({
+      variables: {
+        id: getValues().setGroups[setGroupIndex].sets[setIndex].setId,
+      },
+    })
+  }
 
   return (
     <div className="flex flex-col p-2 text-sm font-medium transition-all">
@@ -53,17 +91,25 @@ const SetGroup = ({ exercise, setGroupIndex }: Props) => {
         <SetWrapper
           key={item.id}
           onDelete={() => {
-            remove(setIndex)
+            handleDelete(setIndex)
           }}
         >
-          <Set {...item} setGroupIndex={setGroupIndex} setIndex={setIndex} />
+          <Set
+            {...item}
+            previous={getPreviousValues({
+              latestSetGroupValues: exercise.latestSetGroup,
+              setIndex,
+            })}
+            setGroupIndex={setGroupIndex}
+            setIndex={setIndex}
+          />
         </SetWrapper>
       ))}
 
       <button
         type="button"
         className="rounded bg-gray-200 p-1 font-medium transition-colors hover:bg-gray-300 active:bg-gray-300"
-        onClick={() => append(defaultSet)}
+        onClick={handleAppend}
       >
         + Add Set
       </button>
@@ -102,3 +148,26 @@ const Placeholder = () => (
 )
 
 export default SetGroup
+
+function getPreviousValues({
+  latestSetGroupValues,
+  setIndex,
+}: {
+  latestSetGroupValues: LatestSetGroupType
+  setIndex: number
+}) {
+  if (!latestSetGroupValues) {
+    return fallbackPreviousValues
+  }
+
+  // If there are no previous sets for this set number, return undefined
+  if (setIndex > latestSetGroupValues.sets.length - 1) {
+    return fallbackPreviousValues
+  }
+
+  const previousSet = latestSetGroupValues.sets[setIndex]
+  return {
+    weight: previousSet.weight,
+    reps: previousSet.reps,
+  }
+}

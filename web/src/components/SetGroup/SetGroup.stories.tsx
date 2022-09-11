@@ -4,7 +4,8 @@ import SetGroupContext, {
   OneSetGroupProps,
   RealisticSetGroupProps,
   ThreeSetGroupProps,
-} from 'src/components/SetGroup/SetGroupContext'
+} from 'src/utils/context/SetGroupContext'
+import { omitStoryBookArgs } from 'src/utils/functions/omitStoryBookArgs'
 
 const Template = (args) => <SetGroupContext {...args} />
 
@@ -26,15 +27,6 @@ LongNameSetGroup.args = LongNameSetGroupProps
 export default {
   title: 'Components/SetGroup',
   argTypes: {
-    exercise: {
-      table: {
-        disable: true,
-      },
-    },
-    sets: {
-      table: {
-        disable: true,
-      },
-    },
+    ...omitStoryBookArgs(['setGroupId', 'setGroupIndex', 'exercise', 'sets']),
   },
 }

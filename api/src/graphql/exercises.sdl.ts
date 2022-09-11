@@ -3,6 +3,7 @@ export const schema = gql`
     id: Int!
     name: String!
     setGroups: [SetGroup]!
+    latestSetGroup(workoutId: Int): SetGroup
     createdAt: DateTime!
     updatedAt: DateTime!
   }

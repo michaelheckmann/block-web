@@ -1,3 +1,4 @@
+import { exercise } from './../exercises/exercises'
 import type {
   QueryResolvers,
   MutationResolvers,

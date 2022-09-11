@@ -1,12 +1,16 @@
-import type { EditWorkoutById, Workout } from 'types/graphql'
-
 import { navigate, routes } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
 
-import WorkoutForm, { FormType } from 'src/components/Workout/WorkoutForm'
-import { omitDeep } from 'src/utils/omitDeep'
+import { EditWorkoutById } from 'types/graphql'
+import WorkoutForm from 'src/components/Workout/WorkoutForm'
+import {
+  LatestSetGroupType,
+  SetType,
+  WorkoutFormType,
+} from 'src/utils/types/WorkoutFormType'
+import { deepCopy } from 'src/utils/functions/deepCopy'
+
+type workoutType = EditWorkoutById['workout']
 
 export const QUERY = gql`
   query EditWorkoutById($id: Int!) {
@@ -14,12 +18,18 @@ export const QUERY = gql`
       id
       name
       done
-      templateId
       createdAt
-      updatedAt
       setGroups {
+        id
         exercise {
+          id
           name
+          latestSetGroup(workoutId: $id) {
+            sets {
+              reps
+              weight
+            }
+          }
         }
         sets {
           id
@@ -31,18 +41,6 @@ export const QUERY = gql`
     }
   }
 `
-const UPDATE_WORKOUT_MUTATION = gql`
-  mutation UpdateWorkoutMutation($id: Int!, $input: UpdateWorkoutInput!) {
-    updateWorkout(id: $id, input: $input) {
-      id
-      name
-      done
-      templateId
-      createdAt
-      updatedAt
-    }
-  }
-`
 
 export const Loading = () => <div>Loading...</div>
 
@@ -51,29 +49,6 @@ export const Failure = ({ error }: CellFailureProps) => (
 )
 
 export const Success = ({ workout }: CellSuccessProps<EditWorkoutById>) => {
-  const [updateWorkout, { loading, error }] = useMutation(
-    UPDATE_WORKOUT_MUTATION,
-    {
-      onCompleted: (d) => {
-        // toast.success('Workout updated')
-        console.log(d)
-        // navigate(routes.workouts())
-      },
-      onError: (error) => {
-        console.error(error.message)
-        toast.error(error.message)
-      },
-    }
-  )
-
-  const onSave = (input: FormType) => {
-    console.log('input', input)
-    // const castInput = Object.assign(input, {
-    //   templateId: parseInt(workout.templateId),
-    // })
-    // updateWorkout({ variables: { id: workout.id, input } })
-  }
-
   return (
     <div className="rw-segment">
       <header className="rw-segment-header">
@@ -82,9 +57,71 @@ export const Success = ({ workout }: CellSuccessProps<EditWorkoutById>) => {
         </h2>
       </header>
       <div className="rw-segment-main">
-        <WorkoutForm workout={workout} onSave={onSave} />
+        <h1>{workout.name}</h1>
+        <WorkoutForm
+          workout={sortWorkout(generateWorkoutObject(workout))}
+          // onSave={(workout) => {
+          //   navigate(routes.workouts())
+          // }}
+        />
       </div>
-      <pre className="">{JSON.stringify(workout, null, 4)}</pre>
     </div>
   )
+}
+
+export function generateWorkoutObject(workout: workoutType): WorkoutFormType {
+  // console.log('WORKOUT', workout)
+  return {
+    workoutId: workout.id,
+    name: workout.name,
+    done: workout.done,
+    setGroups: workout.setGroups.map((setGroup) => ({
+      setGroupId: setGroup.id,
+      exercise: {
+        exerciseId: setGroup.exercise.id,
+        name: setGroup.exercise.name,
+        latestSetGroup: remapLatestSetGroup(setGroup.exercise.latestSetGroup),
+      },
+      sets: setGroup.sets.map(remapSet),
+    })),
+  }
+}
+
+/**
+ * Sort the set groups by set group id, then sort the sets in each set group by set id
+ * Making sure that the sets are in the same order as they were created
+ * @param {WorkoutFormType} workout - WorkoutFormType
+ * @returns A new workout object with the setGroups sorted by setGroupId and the sets sorted by setId.
+ */
+export function sortWorkout(workout: WorkoutFormType) {
+  const workoutToSort = deepCopy(workout)
+  const setGroupCmpFunction = (a, b) => a.setGroupId - b.setGroupId
+  const setCmpFunction = (a, b) => a.setId - b.setId
+  workoutToSort.setGroups.sort(setGroupCmpFunction)
+  workoutToSort.setGroups.forEach((setGroup) => {
+    setGroup.sets.sort(setCmpFunction)
+  })
+  return workoutToSort
+}
+
+export function remapSet(set): SetType {
+  return {
+    setId: set.id,
+    reps: set.reps,
+    weight: set.weight,
+    done: set.done,
+  }
+}
+
+export function remapLatestSetGroup(latestSetGroup): LatestSetGroupType {
+  if (!latestSetGroup) {
+    return null
+  } else {
+    return {
+      sets: latestSetGroup.sets.map((set) => ({
+        reps: set.reps,
+        weight: set.weight,
+      })),
+    }
+  }
 }

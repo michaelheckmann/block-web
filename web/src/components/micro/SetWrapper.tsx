@@ -3,8 +3,10 @@
 import clsx from 'clsx'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
+import { Transition } from '@headlessui/react'
 
-const THRESHOLD = 80
+const THRESHOLD_NO_CONFIRM = 50
+const THRESHOLD_ACCEPTABLE = 20
 
 export interface Props {
   onDelete: Function
@@ -12,6 +14,11 @@ export interface Props {
   children: React.ReactNode
 }
 
+/**
+ * If the event has a clientX property, return it, otherwise return undefined.
+ * @param {any} event - any - The event object that is passed to the function.
+ * @returns The x-coordinate of the cursor position.
+ */
 const cursorPosition = (event: any) => {
   if (event?.touches?.[0]?.clientX) return event.touches[0].clientX
   if (event?.clientX) return event?.clientX
@@ -24,7 +31,6 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
   const [touching, setTouching] = useState(false)
   const [translate, setTranslate] = useState(0)
   const [deleting, setDeleting] = useState(false)
-  const [created, setCreated] = useState(false)
   const [showButton, setShowButton] = useState(false)
 
   const startTouchPosition = useRef(0)
@@ -32,19 +38,11 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
   const container = useRef<HTMLDivElement>(null)
   const containerWidth: number =
     container.current?.getBoundingClientRect().width || 0
+  const acceptableWidth: number = containerWidth * (THRESHOLD_ACCEPTABLE / 100)
   const deleteWithoutConfirmThreshold: number =
-    containerWidth * (THRESHOLD / 100)
+    containerWidth * (THRESHOLD_NO_CONFIRM / 100)
 
-  // Used for in-animation
-  useEffect(() => {
-    setCreated(true)
-    const timer = setTimeout(() => {
-      setTranslate(0)
-      setShowButton(true)
-    }, 200)
-    return () => clearTimeout(timer)
-  }, [])
-
+  /* A function that is called when the user starts to touch the screen. */
   const onStart = useCallback(
     (event: React.TouchEvent | React.MouseEvent) => {
       if (touching) return
@@ -55,9 +53,11 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
     [touching, translate]
   )
 
+  /* A function that is called when the user moves their finger on the screen. */
   const onMove = useCallback(
     function (event: TouchEvent | MouseEvent) {
       if (!touching) return
+      /* Checking if the user is moving their finger to the right. */
       if (
         cursorPosition(event) >
         startTouchPosition.current - initTranslate.current
@@ -87,8 +87,7 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
   )
 
   const onDeleteConfirmed = useCallback(() => {
-    setDeleting(() => true)
-    window.setTimeout(onDelete, 300)
+    setDeleting(true)
   }, [onDelete])
 
   const onDeleteCancel = useCallback(() => {
@@ -108,19 +107,21 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
   }, [onDeleteConfirm, onDeleteConfirmed])
 
   const onMouseUp = useCallback(
+    /* A function that is called when the user stops touching the screen. */
     function () {
       startTouchPosition.current = 0
-      const acceptableMove = THRESHOLD * -0.7
+      const acceptableMove = acceptableWidth * -0.7
       const showDelete = translate < acceptableMove
       const notShowDelete = translate >= acceptableMove
       const deleteWithoutConfirm =
         -1 * translate >= deleteWithoutConfirmThreshold
+      /* Setting the translate value to the appropriate value based on the user's swipe. */
       if (deleteWithoutConfirm) {
         setTranslate(() => -containerWidth)
       } else if (notShowDelete) {
         setTranslate(() => 0)
       } else if (showDelete && !deleteWithoutConfirm) {
-        setTranslate(() => -1 * THRESHOLD)
+        setTranslate(() => -1 * acceptableWidth)
       }
       setTouching(() => false)
       if (deleteWithoutConfirm) onDeleteClick()
@@ -150,52 +151,59 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
 
   return (
     // In-And-Out animation
-    <ClickAwayListener onClickAway={onDeleteCancel}>
-      <div
-        className={clsx(
-          'relative h-10 overflow-hidden rounded duration-300 ease-out',
-          {
-            'max-h-0 transition-all': deleting,
-            'max-h-10': !deleting && created,
-          },
-          {
-            'duration-300': created,
-            'my-1 max-h-10': created && !deleting,
-            'my-0 max-h-0 transition-all duration-200': !created,
-          }
-        )}
-        ref={container}
-      >
-        {/* Custom properties are necessary to avoid red line around children */}
-        <div className="absolute top-[1px] left-0 h-[38px] w-full rounded bg-red-500">
-          <button
-            type="button"
-            aria-label="delete"
-            onClick={onDeleteClick}
-            className={clsx(
-              'absolute top-0 -right-20 h-full w-20 border-l-2 border-l-white font-medium text-white duration-300 ease-out',
-              {
-                'transition-transform': !touching,
-                hidden: !showButton,
-              }
-            )}
-            style={{ transform: `translateX(${translate}px)` }}
-          >
-            Delete
-          </button>
-        </div>
+
+    <Transition
+      appear={true}
+      show={!deleting}
+      enter="transition-all duration-75 ease-out overflow-hidden bg-blue-500"
+      enterFrom="max-h-0"
+      enterTo="max-h-10"
+      leave="transition-all duration-200 ease-in overflow-hidden bg-blue-500"
+      leaveFrom="max-h-10"
+      leaveTo="max-h-0"
+      afterEnter={() => {
+        setTranslate(0)
+        setShowButton(true)
+      }}
+      afterLeave={() => onDelete()}
+    >
+      <ClickAwayListener onClickAway={onDeleteCancel}>
         <div
-          className={clsx('bg-white duration-300 ease-out', {
-            'transition-transform': !touching,
-          })}
-          style={{ transform: `translateX(${translate}px)` }}
-          onMouseDown={onStart}
-          onTouchStart={onStart}
+          className="relative h-10 overflow-hidden transition-all duration-200 rounded ease"
+          ref={container}
         >
-          {children}
+          {/* Custom properties are necessary to avoid red line around children */}
+          <div className="absolute top-[1px] left-0 h-[38px] w-full rounded bg-red-500">
+            <button
+              tabIndex={-1}
+              type="button"
+              aria-label="delete"
+              onClick={onDeleteClick}
+              className={clsx(
+                'absolute top-0 -right-20 h-full w-20 border-l-white font-medium text-white duration-200 ease-out',
+                {
+                  'transition-transform': !touching,
+                  hidden: !showButton,
+                }
+              )}
+              style={{ transform: `translateX(${translate}px)` }}
+            >
+              Delete
+            </button>
+          </div>
+          <div
+            className={clsx('bg-white duration-200 ease-out', {
+              'transition-transform': !touching,
+            })}
+            style={{ transform: `translateX(${translate}px)` }}
+            onMouseDown={onStart}
+            onTouchStart={onStart}
+          >
+            {children}
+          </div>
         </div>
-      </div>
-    </ClickAwayListener>
+      </ClickAwayListener>
+    </Transition>
   )
 }
 
