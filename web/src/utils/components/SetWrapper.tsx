@@ -169,7 +169,7 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
     >
       <ClickAwayListener onClickAway={onDeleteCancel}>
         <div
-          className="relative h-10 overflow-hidden transition-all duration-200 rounded ease"
+          className="ease relative h-10 overflow-hidden rounded transition-all duration-200"
           ref={container}
         >
           {/* Custom properties are necessary to avoid red line around children */}

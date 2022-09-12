@@ -9,6 +9,9 @@ import {
 import { standard } from 'src/components/Workout/WorkoutCell/WorkoutCell.mock'
 import { WorkoutFormType } from '../types/WorkoutFormType'
 
+/*  It's a wrapper for the SetGroup component that
+    allows us to pass in custom props to the component and
+    enable form functionality. */
 function SetContext(args: SetProps) {
   const { previous, setGroupIndex, setIndex, ...item } = args
   const workout = sortWorkout(generateWorkoutObject(standard().workout))
@@ -33,6 +36,8 @@ function SetContext(args: SetProps) {
 }
 
 export default SetContext
+
+// Different configuration options for the different test cases
 
 const DefaultProps = {
   setId: 0,

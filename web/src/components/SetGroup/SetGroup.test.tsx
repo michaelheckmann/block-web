@@ -5,7 +5,6 @@ import SetGroupContext, {
   ThreeSetGroupProps,
 } from 'src/utils/context/SetGroupContext'
 import userEvent from '@testing-library/user-event'
-import { act } from 'react-dom/test-utils'
 
 describe('SetGroup', () => {
   it('renders a set group', () => {

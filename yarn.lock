@@ -2218,6 +2218,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/core@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@floating-ui/core@npm:1.0.1"
+  checksum: c8b7c09b852e9b3422c5ff57f09cdaa0b40206ed147ab6721aa8ee2c4e88eab2e2a8f7d886d92df4ec08537d85b534aae19aa5eff1fa45dd80be885a435389b0
+  languageName: node
+  linkType: hard
+
+"@floating-ui/dom@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@floating-ui/dom@npm:1.0.1"
+  dependencies:
+    "@floating-ui/core": ^1.0.1
+  checksum: 9ecd0df0e7795051d99025a0c3e890eeb4655138b26ab72a2c68bb1e780bcba9de1825e6c1e34adbdad6cf5d090cbb3ce45c38d9678ac7f0846490ee3a9fd14a
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react-dom@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@floating-ui/react-dom@npm:1.0.0"
+  dependencies:
+    "@floating-ui/dom": ^1.0.0
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 381f5747bf1a34e6ed55c80ed05cd3357803a576dd05c7b67af5c7f60365fb95a456190d80fdd9b9be337bdb55625f8612773101de7c367f590c0e47974c2850
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.0.1, @gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -2858,13 +2886,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:^1.6.6":
+"@headlessui/react@npm:^1.7.0":
   version: 1.7.0
   resolution: "@headlessui/react@npm:1.7.0"
   peerDependencies:
     react: ^16 || ^17 || ^18
     react-dom: ^16 || ^17 || ^18
   checksum: b980eaf99c83cd0a1f83c77773f4d6fa8765f345043aa5259c2f9a6f71aea925ce3cceab91809b04c523d06d6db677d4913f131e6f5fe590904680c2858a73d8
+  languageName: node
+  linkType: hard
+
+"@heroicons/react@npm:^2.0.10":
+  version: 2.0.10
+  resolution: "@heroicons/react@npm:2.0.10"
+  peerDependencies:
+    react: ">= 16"
+  checksum: 344dbd4c347175b1b5767e88eaf4f6b9ca950e4711b2975241f0c018a77f8098c7f074a81aa919f9bd8037fc68e9fa160f1095a6dcf2fe5d188e8ef3c22aa22a
   languageName: node
   linkType: hard
 
@@ -20243,7 +20280,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-fast-compare@npm:^3.2.0":
+"react-fast-compare@npm:^3.0.1, react-fast-compare@npm:^3.2.0":
   version: 3.2.0
   resolution: "react-fast-compare@npm:3.2.0"
   checksum: 2a7d75ce9fb5da1e3c01f74a5cd592f3369a8cc8d44e93654bf147ab221f430238e8be70677e896f2bfcb96a1cb7a47a8d05d84633de764a9d57d27005a4bb9e
@@ -20318,6 +20355,20 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: 6eb5e4b28028c23e2bfcf73371e72cd4162e4ac7ab445ddae2afe24e347a37d6dc22fae6e1748632cd43c6d4f9b8f86dcf26bf9275e1874f436d129952528ae0
+  languageName: node
+  linkType: hard
+
+"react-popper@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "react-popper@npm:2.3.0"
+  dependencies:
+    react-fast-compare: ^3.0.1
+    warning: ^4.0.2
+  peerDependencies:
+    "@popperjs/core": ^2.0.0
+    react: ^16.8.0 || ^17 || ^18
+    react-dom: ^16.8.0 || ^17 || ^18
+  checksum: 23f93540537ca4c035425bb8d5e51b11131fbc921d7ac1d041d0ae557feac8c877f3a012d36b94df8787803f52ed81e6df9257ac9e58719875f7805518d6db3f
   languageName: node
   linkType: hard
 
@@ -20851,6 +20902,13 @@ __metadata:
   version: 4.1.6
   resolution: "reselect@npm:4.1.6"
   checksum: 2ae845ba4c423153822ad91f301ddb41494a86ad15dee4fb49fcf48aada0af9b06e59241159385dbce1bd56d1475c7a86b039f43281f7a992fd0a3137372d46b
+  languageName: node
+  linkType: hard
+
+"resize-observer-polyfill@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "resize-observer-polyfill@npm:1.5.1"
+  checksum: 5e882475067f0b97dc07e0f37c3e335ac5bc3520d463f777cec7e894bb273eddbfecb857ae668e6fb6881fd6f6bb7148246967172139302da50fa12ea3a15d95
   languageName: node
   linkType: hard
 
@@ -24069,6 +24127,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"warning@npm:^4.0.2":
+  version: 4.0.3
+  resolution: "warning@npm:4.0.3"
+  dependencies:
+    loose-envify: ^1.0.0
+  checksum: aebab445129f3e104c271f1637fa38e55eb25f968593e3825bd2f7a12bd58dc3738bb70dc8ec85826621d80b4acfed5a29ebc9da17397c6125864d72301b937e
+  languageName: node
+  linkType: hard
+
 "watchpack-chokidar2@npm:^2.0.1":
   version: 2.0.1
   resolution: "watchpack-chokidar2@npm:2.0.1"
@@ -24148,7 +24215,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
-    "@headlessui/react": ^1.6.6
+    "@floating-ui/react-dom": ^1.0.0
+    "@headlessui/react": ^1.7.0
+    "@heroicons/react": ^2.0.10
     "@redwoodjs/forms": ^2.2.4
     "@redwoodjs/router": ^2.2.4
     "@redwoodjs/web": ^2.2.4
@@ -24161,6 +24230,8 @@ __metadata:
     react: 17.0.2
     react-click-away-listener: ^2.2.1
     react-dom: 17.0.2
+    react-popper: ^2.3.0
+    resize-observer-polyfill: ^1.5.1
     tailwindcss: ^3.1.8
   languageName: unknown
   linkType: soft
