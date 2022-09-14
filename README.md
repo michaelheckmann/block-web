@@ -2,9 +2,7 @@
 
 ## Todos
 
-[ ] => Delete Button offset
 [ ] => Workout Page
-[ ] => Drag and drop reorder exercises
 [ ] => Headless UI
 
 [ ] => Exercise picker
@@ -13,3 +11,5 @@
 [ ] => Give contextuals clues and nudges (toast?)
 
 [X] => Auto-save
+[X] => Delete Button offset
+[X] => Drag and drop reorder exercises

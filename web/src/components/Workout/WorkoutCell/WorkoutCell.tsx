@@ -21,6 +21,7 @@ export const QUERY = gql`
       createdAt
       setGroups {
         id
+        order
         exercise {
           id
           name
@@ -70,13 +71,14 @@ export const Success = ({ workout }: CellSuccessProps<EditWorkoutById>) => {
 }
 
 export function generateWorkoutObject(workout: workoutType): WorkoutFormType {
-  // console.log('WORKOUT', workout)
+  console.log('WORKOUT', workout)
   return {
     workoutId: workout.id,
     name: workout.name,
     done: workout.done,
     setGroups: workout.setGroups.map((setGroup) => ({
       setGroupId: setGroup.id,
+      order: setGroup.order,
       exercise: {
         exerciseId: setGroup.exercise.id,
         name: setGroup.exercise.name,
@@ -95,7 +97,7 @@ export function generateWorkoutObject(workout: workoutType): WorkoutFormType {
  */
 export function sortWorkout(workout: WorkoutFormType) {
   const workoutToSort = deepCopy(workout)
-  const setGroupCmpFunction = (a, b) => a.setGroupId - b.setGroupId
+  const setGroupCmpFunction = (a, b) => a.order - b.order
   const setCmpFunction = (a, b) => a.setId - b.setId
   workoutToSort.setGroups.sort(setGroupCmpFunction)
   workoutToSort.setGroups.forEach((setGroup) => {

@@ -38,7 +38,8 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
   const container = useRef<HTMLDivElement>(null)
   const containerWidth: number =
     container.current?.getBoundingClientRect().width || 0
-  const acceptableWidth: number = containerWidth * (THRESHOLD_ACCEPTABLE / 100)
+  // Hard-coded the value to 80px to match the width of the delete button
+  const acceptableWidth: number = 80 // containerWidth * (THRESHOLD_ACCEPTABLE / 100)
   const deleteWithoutConfirmThreshold: number =
     containerWidth * (THRESHOLD_NO_CONFIRM / 100)
 
@@ -180,7 +181,7 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
               aria-label="delete"
               onClick={onDeleteClick}
               className={clsx(
-                'absolute top-0 -right-20 h-full w-20 border-l-white font-medium text-white duration-200 ease-out',
+                'absolute top-0 -right-20 h-full w-20 border-l-white bg-blue-400 font-medium text-white duration-200 ease-out',
                 {
                   'transition-transform': !touching,
                   hidden: !showButton,

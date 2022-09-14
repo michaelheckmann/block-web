@@ -17,6 +17,7 @@ import {
   DefaultContext,
   ApolloCache,
   MutationFunctionOptions,
+  OnQueryUpdated,
 } from '@apollo/client'
 
 const CREATE_SET_MUTATION = gql`
@@ -56,6 +57,7 @@ type useSetMutationArgs = {
   onCreationSuccess?: (data: CreateSetMutation) => any
   onUpdateSuccess?: (data: UpdateSetMutation) => any
   onDeleteSuccess?: (data: DeleteSetMutation) => any
+  onUpdateQueryUpdated?: OnQueryUpdated<any>
   onError?: (error: ApolloError) => any
 }
 
@@ -109,10 +111,16 @@ type useSetMutationReturn = {
   loading: boolean
 }
 
+// Default behavior for onQueryUpdated:
+// Cell fetch query is called whenever something is updated
+// This causes the entire form to re-render
+// If we return false, the cell fetch query is not called
+
 export function useSetMutation({
   onCreationSuccess = (d) => console.log(d),
   onUpdateSuccess = (d) => console.log(d),
   onDeleteSuccess = (d) => console.log(d),
+  onUpdateQueryUpdated = (d) => false,
   onError = (e) => console.error(e.message),
 }: useSetMutationArgs = {}): useSetMutationReturn {
   const [
@@ -142,6 +150,7 @@ export function useSetMutation({
     {
       onCompleted: onUpdateSuccess,
       onError,
+      onQueryUpdated: onUpdateQueryUpdated,
     }
   )
 

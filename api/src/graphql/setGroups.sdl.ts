@@ -6,6 +6,7 @@ export const schema = gql`
     exercise: Exercise!
     workoutId: Int!
     workout: Workout!
+    order: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -16,11 +17,13 @@ export const schema = gql`
   }
 
   input CreateSetGroupInput {
+    order: Int
     exerciseId: Int!
     workoutId: Int!
   }
 
   input UpdateSetGroupInput {
+    order: Int
     exerciseId: Int
     workoutId: Int
   }

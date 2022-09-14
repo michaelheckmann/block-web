@@ -21,6 +21,7 @@ export type ExerciseType = {
 export type SetGroupType = {
   setGroupId: number
   exercise: ExerciseType
+  order: number
   sets: SetType[]
 }
 

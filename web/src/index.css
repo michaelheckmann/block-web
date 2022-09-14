@@ -12,10 +12,16 @@
  * END --- SETUP TAILWINDCSS EDIT
  */
 
- @layer utilities {
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+@layer utilities {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  /* This is needed for the Set Group Menu Popover Button
+   to fill the container height */
+  .popover-wrapper > div[data-headlessui-state] {
+    display: flex;
   }
 }

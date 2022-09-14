@@ -1,9 +1,12 @@
 import { FormProvider, useFieldArray, useForm } from '@redwoodjs/forms'
 import { useSetMutation } from 'src/utils/hooks/useSetMutation'
-import SetGroup, { defaultSet } from 'src/components/SetGroup'
+import { defaultSet } from 'src/components/SetGroup'
 import { useSetGroupMutation } from 'src/utils/hooks/useSetGroupMutation'
 import { remapLatestSetGroup, remapSet } from '../WorkoutCell'
 import { WorkoutFormType } from 'src/utils/types/WorkoutFormType'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import SetGroupCard from 'src/utils/components/SetGroupCard'
+import { useRef, useState } from 'react'
 
 const defaultSetGroup = {
   exerciseId: 1,
@@ -18,7 +21,7 @@ const WorkoutForm = ({ workout }: Props) => {
   })
 
   const { control, getValues } = methods
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove, move, update } = useFieldArray({
     control,
     name: 'setGroups',
   })
@@ -72,6 +75,7 @@ const WorkoutForm = ({ workout }: Props) => {
       })
       append({
         setGroupId: createSetGroup.id,
+        order: createSetGroup.order,
         exercise: {
           exerciseId: createSetGroup.exercise.id,
           name: createSetGroup.exercise.name,
@@ -89,6 +93,15 @@ const WorkoutForm = ({ workout }: Props) => {
           (setGroup) => setGroup.setGroupId === deleteSetGroup.id
         )
       )
+      checkSetGroupOrder()
+    },
+    onUpdateSuccess: ({ updateSetGroup }) => {
+      const { order } = updateSetGroup
+      console.log(`SET GROUP ${order} UPDATED`)
+      update(order, {
+        ...getValues().setGroups[order],
+        order,
+      })
     },
   })
 
@@ -98,6 +111,7 @@ const WorkoutForm = ({ workout }: Props) => {
       variables: {
         input: {
           exerciseId: defaultSetGroup.exerciseId,
+          order: fields.length,
           workoutId: workout.workoutId,
         },
       },
@@ -129,33 +143,106 @@ const WorkoutForm = ({ workout }: Props) => {
     }
   }
 
+  const checkSetGroupOrder = () => {
+    getValues().setGroups.forEach((setGroup, index) => {
+      if (setGroup.order !== index) {
+        setGroupMutation.updateSetGroup.mutation({
+          variables: {
+            id: setGroup.setGroupId,
+            input: {
+              order: index,
+            },
+          },
+        })
+      }
+    })
+  }
+
+  const handleDragEnd = ({ source, destination }) => {
+    if (destination) {
+      move(source.index, destination.index)
+      checkSetGroupOrder()
+    }
+    setFlexContainerHeight(undefined)
+  }
+
+  const handleDragStart = ({ source }) => {
+    source.index
+  }
+
+  const [flexContainerHeight, setFlexContainerHeight] = useState(undefined)
+  const setGroupContainerRef = useRef(null)
+  const setGroupCardRefs = useRef([])
+
+  const handleBeforeCapture = async ({ draggableId }) => {
+    if (!draggableId) {
+      setFlexContainerHeight(undefined)
+    }
+
+    const index = fields.findIndex((f) => f.id === draggableId)
+    const top = setGroupContainerRef.current.getBoundingClientRect().top
+    const bottom = setGroupCardRefs.current[index].getBoundingClientRect().top
+    setFlexContainerHeight(bottom - top - 12 - 48 * index) // 12 = gap-3 , 40 = h-8 + p-2
+  }
+
   return (
-    <div className="">
+    <div ref={setGroupContainerRef}>
       <FormProvider {...methods}>
         <form onSubmit={() => null}>
-          <section className="flex flex-col gap-3">
-            {fields.map((item, setGroupIndex) => (
-              <div key={item.id} className="flex flex-col">
-                {item.id}
-                <SetGroup {...item} setGroupIndex={setGroupIndex} />
-                <button
-                  type="button"
-                  className="p-1 font-semibold bg-red-300 rounded"
-                  onClick={() => handleDelete(setGroupIndex)}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-
-            <button
-              type="button"
-              className="p-2 font-semibold bg-green-300 rounded"
-              onClick={handleAppend}
-            >
-              Add
-            </button>
-          </section>
+          <DragDropContext
+            onBeforeCapture={handleBeforeCapture}
+            onDragEnd={handleDragEnd}
+            onDragStart={handleDragStart}
+          >
+            <section className="flex flex-col gap-3">
+              <div
+                className="w-full"
+                style={{ height: flexContainerHeight ?? 0 }}
+              ></div>
+              <Droppable droppableId="setGroups">
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {fields.map((item, setGroupIndex) => (
+                      <Draggable
+                        key={item.id}
+                        draggableId={item.id}
+                        index={setGroupIndex}
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                          >
+                            <div
+                              ref={(el) =>
+                                (setGroupCardRefs.current[setGroupIndex] = el)
+                              }
+                            >
+                              <SetGroupCard
+                                {...item}
+                                setGroupIndex={setGroupIndex}
+                                handleDelete={handleDelete}
+                                dragHandleProps={provided.dragHandleProps}
+                                isReordering={flexContainerHeight !== undefined}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+              <button
+                type="button"
+                className="rounded bg-green-300 p-2 font-semibold"
+                onClick={handleAppend}
+              >
+                Add
+              </button>
+            </section>
+          </DragDropContext>
         </form>
       </FormProvider>
     </div>

@@ -15,12 +15,14 @@ import {
   DefaultContext,
   ApolloCache,
   MutationFunctionOptions,
+  OnQueryUpdated,
 } from '@apollo/client'
 
 const CREATE_SET_GROUP_MUTATION = gql`
   mutation CreateSetGroupMutation($input: CreateSetGroupInput!) {
     createSetGroup(input: $input) {
       id
+      order
       exercise {
         id
         name
@@ -39,6 +41,7 @@ const UPDATE_SET_GROUP_MUTATION = gql`
   mutation UpdateSetGroupMutation($id: Int!, $input: UpdateSetGroupInput!) {
     updateSetGroup(id: $id, input: $input) {
       id
+      order
       createdAt
       updatedAt
     }
@@ -57,6 +60,7 @@ type useSetGroupMutationArgs = {
   onCreationSuccess?: (data: CreateSetGroupMutation) => any
   onUpdateSuccess?: (data: UpdateSetGroupMutation) => any
   onDeleteSuccess?: (data: DeleteSetGroupMutation) => any
+  onUpdateQueryUpdated?: OnQueryUpdated<any>
   onError?: (error: ApolloError) => any
 }
 
@@ -110,10 +114,16 @@ type useSetGroupMutationReturn = {
   loading: boolean
 }
 
+// Default behavior for onQueryUpdated:
+// Cell fetch query is called whenever something is updated
+// This causes the entire form to re-render
+// If we return false, the cell fetch query is not called
+
 export function useSetGroupMutation({
   onCreationSuccess = (d) => console.log(d),
   onUpdateSuccess = (d) => console.log(d),
   onDeleteSuccess = (d) => console.log(d),
+  onUpdateQueryUpdated = (d) => false,
   onError = (e) => console.error(e.message),
 }: useSetGroupMutationArgs = {}): useSetGroupMutationReturn {
   const [
@@ -143,6 +153,7 @@ export function useSetGroupMutation({
     {
       onCompleted: onUpdateSuccess,
       onError,
+      onQueryUpdated: onUpdateQueryUpdated,
     }
   )
 

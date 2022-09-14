@@ -1,5 +1,5 @@
 import { Popover, Transition } from '@headlessui/react'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect } from 'react'
 import {
   useFloating,
   offset,
@@ -37,7 +37,9 @@ const PopoverMenu = ({ children, actions }: Props) => {
 
   return (
     <Popover>
-      <Popover.Button ref={reference}>{children}</Popover.Button>
+      <Popover.Button ref={reference} className="h-full" type="button">
+        {children}
+      </Popover.Button>
       <Transition
         as={Fragment}
         enter="transition duration-200 ease-out"
@@ -71,10 +73,11 @@ const PopoverMenu = ({ children, actions }: Props) => {
           <Popover.Panel className="border-1 divide-y-2 divide-solid divide-gray-100 rounded border-gray-300 bg-white px-1 py-1 shadow">
             {actions.map((action, index) => (
               <div className="py-1" key={index}>
-                <button
-                  className="group flex w-full items-center rounded-md px-3 py-2 text-left text-sm font-medium text-gray-900 transition duration-150 hover:bg-primary-400 hover:text-white focus:bg-primary-400 focus:text-white active:bg-primary-400 active:text-white disabled:bg-transparent disabled:text-gray-500"
+                <Popover.Button
+                  className="group flex w-full items-center rounded-md px-3 py-2 text-left text-sm font-medium text-gray-900 outline-none transition duration-150 hover:bg-primary-400 hover:text-white focus:bg-primary-400 focus:text-white active:bg-primary-400 active:text-white disabled:bg-transparent disabled:text-gray-500"
                   onClick={action.onClick}
                   disabled={action.disabled}
+                  type="button"
                 >
                   {action.icon && (
                     <span className="mr-1 h-4 w-4 text-primary-400 transition duration-150 group-hover:text-white group-focus:text-white group-active:text-white group-disabled:text-gray-500">
@@ -82,7 +85,7 @@ const PopoverMenu = ({ children, actions }: Props) => {
                     </span>
                   )}
                   <div className="block">{action.label}</div>
-                </button>
+                </Popover.Button>
               </div>
             ))}
           </Popover.Panel>

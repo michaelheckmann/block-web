@@ -1,9 +1,5 @@
-import {
-  PencilIcon,
-  ArrowPathIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
 import { useFormContext, useFieldArray } from '@redwoodjs/forms'
+import { useEffect } from 'react'
 import Set from 'src/components/Set/Set'
 import SetWrapper from 'src/utils/components/SetWrapper'
 import { useSetMutation } from 'src/utils/hooks/useSetMutation'
@@ -12,7 +8,6 @@ import {
   WorkoutFormType,
   LatestSetGroupType,
 } from 'src/utils/types/WorkoutFormType'
-import PopoverMenu from '../PopoverMenu/PopoverMenu'
 
 export type SetGroupProps = SetGroupType & {
   setGroupIndex: number
@@ -76,43 +71,7 @@ const SetGroup = ({ exercise, setGroupIndex }: SetGroupProps) => {
   }
 
   return (
-    <div className="flex flex-col p-2 text-sm font-medium transition-all">
-      {/* Exercise Menu Bar */}
-      <div className="flex items-stretch justify-between gap-3 mb-2 font-semibold text-primary">
-        <div className="flex">
-          {/* TODO: Add the modal */}
-          {exercise.name}
-        </div>
-        <div className="flex">
-          <PopoverMenu
-            actions={[
-              {
-                label: 'Add a Note',
-                onClick: () => {},
-                icon: <PencilIcon />,
-              },
-              {
-                label: 'Replace Exercise',
-                onClick: () => {},
-                icon: <ArrowPathIcon />,
-              },
-              {
-                label: 'Remove Exercise',
-                onClick: () => {},
-                icon: <XMarkIcon />,
-                disabled: true,
-              },
-            ]}
-          >
-            <div className="flex h-full cursor-pointer flex-col items-center justify-center gap-[2px] rounded bg-primary-100 px-3 transition hover:bg-primary-200">
-              <div className="flex h-[2.5px] w-[2.5px] items-center justify-center rounded-full bg-primary"></div>
-              <div className="flex h-[2.5px] w-[2.5px] items-center justify-center rounded-full bg-primary"></div>
-              <div className="flex h-[2.5px] w-[2.5px] items-center justify-center rounded-full bg-primary"></div>
-            </div>
-          </PopoverMenu>
-        </div>
-      </div>
-
+    <>
       <Header />
 
       {/* Main Set Content */}
@@ -138,17 +97,17 @@ const SetGroup = ({ exercise, setGroupIndex }: SetGroupProps) => {
 
       <button
         type="button"
-        className="p-1 font-medium transition-colors bg-gray-200 rounded hover:bg-gray-300 active:bg-gray-300"
+        className="rounded bg-gray-200 p-1 font-medium transition-colors hover:bg-gray-300 active:bg-gray-300"
         onClick={handleAppend}
       >
         + Add Set
       </button>
-    </div>
+    </>
   )
 }
 
 const Header = () => (
-  <div className="flex justify-between w-full gap-3 px-2 text-center">
+  <div className="flex w-full justify-between gap-3 px-2 text-center">
     <div className="w-5">Set</div>
     <div className="flex-grow">Previous</div>
     <div className="w-12">KG</div>
@@ -158,21 +117,21 @@ const Header = () => (
 )
 
 const Placeholder = () => (
-  <div className="flex items-center justify-center w-full gap-3 p-2 animate-pulse">
+  <div className="flex w-full animate-pulse items-center justify-center gap-3 p-2">
     <div className="w-5">
-      <div className="w-full h-1 bg-gray-200 rounded-full"></div>
+      <div className="h-1 w-full rounded-full bg-gray-200"></div>
     </div>
     <div className="flex-grow">
-      <div className="w-full h-1 bg-gray-200 rounded-full"></div>
+      <div className="h-1 w-full rounded-full bg-gray-200"></div>
     </div>
     <div className="w-12">
-      <div className="w-full h-1 bg-gray-200 rounded-full"></div>
+      <div className="h-1 w-full rounded-full bg-gray-200"></div>
     </div>
     <div className="w-12">
-      <div className="w-full h-1 bg-gray-200 rounded-full"></div>
+      <div className="h-1 w-full rounded-full bg-gray-200"></div>
     </div>
     <div className="w-7">
-      <div className="w-full h-1 bg-gray-200 rounded-full"></div>
+      <div className="h-1 w-full rounded-full bg-gray-200"></div>
     </div>
   </div>
 )

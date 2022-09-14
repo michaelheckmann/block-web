@@ -1,6 +1,6 @@
 import { useFormContext, useWatch } from '@redwoodjs/forms'
 import clsx from 'clsx'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { debounce } from 'src/utils/functions/debounce'
 import { SetType, WorkoutFormType } from 'src/utils/types/WorkoutFormType'
 import { useSetMutation } from '../../utils/hooks/useSetMutation'
@@ -16,16 +16,21 @@ export type SetProps = SetType & {
 
 const Set = (props: SetProps) => {
   const { register, getValues, formState } = useFormContext<WorkoutFormType>()
+  const [isMounted, setIsMounted] = useState(false)
 
   const path = `setGroups.${props.setGroupIndex}.sets.${props.setIndex}`
   const weight = useWatch({ name: `${path}.weight` })
   const reps = useWatch({ name: `${path}.reps` })
   const done = useWatch({ name: `${path}.done` })
 
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   const setMutation = useSetMutation()
   useEffect(() => {
     // Prevent the mutation from firing on initial render
-    if (!formState.isDirty) return
+    if (!isMounted || !formState.isDirty) return
     // console.log(getValues().setGroups[props.setGroupIndex])
     const setValues =
       getValues().setGroups[props.setGroupIndex].sets[props.setIndex]
@@ -72,8 +77,8 @@ const Set = (props: SetProps) => {
         {props.previous.weight &&
           `${props.previous.weight} kg x ${props.previous.reps}`}
         {!props.previous.weight && (
-          <div className="flex items-center justify-center w-full h-full">
-            <div className="h-1 bg-gray-200 rounded-full w-7"></div>
+          <div className="flex h-full w-full items-center justify-center">
+            <div className="h-1 w-7 rounded-full bg-gray-200"></div>
           </div>
         )}
       </div>
