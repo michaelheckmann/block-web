@@ -75,29 +75,32 @@ const SetGroup = ({ exercise, setGroupIndex }: SetGroupProps) => {
       <Header />
 
       {/* Main Set Content */}
-      {fields.length === 0 && <Placeholder />}
-      {fields.map((item, setIndex) => (
-        <SetWrapper
-          key={item.id}
-          onDelete={() => {
-            handleDelete(setIndex)
-          }}
-        >
-          <Set
-            {...item}
-            previous={getPreviousValues({
-              latestSetGroupValues: exercise.latestSetGroup,
-              setIndex,
-            })}
-            setGroupIndex={setGroupIndex}
-            setIndex={setIndex}
-          />
-        </SetWrapper>
-      ))}
+
+      <div className="mb-2 space-y-2">
+        {fields.length === 0 && <Placeholder />}
+        {fields.map((item, setIndex) => (
+          <SetWrapper
+            key={item.id}
+            onDelete={() => {
+              handleDelete(setIndex)
+            }}
+          >
+            <Set
+              {...item}
+              previous={getPreviousValues({
+                latestSetGroupValues: exercise.latestSetGroup,
+                setIndex,
+              })}
+              setGroupIndex={setGroupIndex}
+              setIndex={setIndex}
+            />
+          </SetWrapper>
+        ))}
+      </div>
 
       <button
         type="button"
-        className="rounded bg-gray-200 p-1 font-medium transition-colors hover:bg-gray-300 active:bg-gray-300"
+        className="h-8 w-full rounded-sm bg-gray-200 p-1 font-medium tracking-wide text-gray-900 transition-colors hover:bg-gray-300 active:bg-gray-300"
         onClick={handleAppend}
       >
         + Add Set
@@ -107,7 +110,7 @@ const SetGroup = ({ exercise, setGroupIndex }: SetGroupProps) => {
 }
 
 const Header = () => (
-  <div className="flex w-full justify-between gap-3 px-2 text-center">
+  <div className="mb-2 flex w-full justify-between gap-3 px-2 text-center font-medium text-gray-900">
     <div className="w-5">Set</div>
     <div className="flex-grow">Previous</div>
     <div className="w-12">KG</div>
@@ -117,7 +120,7 @@ const Header = () => (
 )
 
 const Placeholder = () => (
-  <div className="flex w-full animate-pulse items-center justify-center gap-3 p-2">
+  <div className="flex h-10 w-full animate-pulse items-center justify-center gap-3 p-2">
     <div className="w-5">
       <div className="h-1 w-full rounded-full bg-gray-200"></div>
     </div>

@@ -12,6 +12,7 @@ export type SetProps = SetType & {
     weight: number
     reps: number
   }
+  deleting?: boolean
 }
 
 const Set = (props: SetProps) => {
@@ -58,10 +59,12 @@ const Set = (props: SetProps) => {
     <div
       data-testid="set-container-div"
       className={clsx(
-        'flex w-full justify-between gap-3 rounded p-2 text-center text-gray-900',
+        'ease flex w-full justify-between  gap-3 border-1 p-2 text-center transition-all duration-200',
         {
-          'bg-green-200': done,
-          'bg-transparent': !done,
+          'border-green-300 bg-green-100': done && !props.deleting,
+          'border-gray-500 bg-white': !done && !props.deleting,
+          'rounded-sm text-gray-900': !props.deleting,
+          'rounded-l-sm border-red-500 bg-white text-red-500': props.deleting,
         }
       )}
     >
@@ -71,14 +74,22 @@ const Set = (props: SetProps) => {
       {/* Previous values, not interactive */}
       <div
         className={clsx('flex flex-grow items-center justify-center', {
-          'text-gray-400': weight || reps,
+          'opacity-50': weight || reps,
         })}
       >
         {props.previous.weight &&
           `${props.previous.weight} kg x ${props.previous.reps}`}
         {!props.previous.weight && (
-          <div className="flex h-full w-full items-center justify-center">
-            <div className="h-1 w-7 rounded-full bg-gray-200"></div>
+          <div className="flex items-center justify-center w-full h-full">
+            <div
+              className={clsx(
+                'h-1 w-7 rounded-full bg-gray-900 opacity-50 transition duration-200',
+                {
+                  'bg-red-900': props.deleting,
+                  'bg-green-900': !props.deleting && done,
+                }
+              )}
+            ></div>
           </div>
         )}
       </div>
@@ -98,11 +109,14 @@ const Set = (props: SetProps) => {
         defaultValue={weight || ''}
         placeholder={props.previous.weight?.toString()}
         className={clsx(
-          'h-6 w-12 rounded border-0 text-center outline-none ring-gray-700 transition-all placeholder:text-gray-400 focus:ring-2 active:ring-2',
-          { 'bg-transparent': done },
+          'h-6 w-12 rounded-sm border-0 text-center outline-none transition-all duration-200',
           {
+            'bg-transparent': done || props.deleting,
             'bg-gray-200 hover:bg-gray-300 focus:bg-gray-200 active:bg-gray-200':
-              !done,
+              !done && !props.deleting,
+            'ring-gray-700  placeholder:text-gray-400 focus:ring-2 active:ring-2':
+              !props.deleting,
+            'placeholder:text-red-300': props.deleting,
           }
         )}
       />
@@ -122,11 +136,14 @@ const Set = (props: SetProps) => {
         defaultValue={reps || ''}
         placeholder={props.previous.reps?.toString()}
         className={clsx(
-          'h-6 w-12 rounded text-center outline-none ring-gray-700 transition-all placeholder:text-gray-400 focus:ring-2 active:ring-2',
-          { 'bg-transparent': done },
+          'h-6 w-12 rounded-sm border-0 text-center outline-none transition-all duration-200',
           {
+            'bg-transparent': done || props.deleting,
             'bg-gray-200 hover:bg-gray-300 focus:bg-gray-200 active:bg-gray-200':
-              !done,
+              !done && !props.deleting,
+            'ring-gray-700  placeholder:text-gray-400 focus:ring-2 active:ring-2':
+              !props.deleting,
+            'placeholder:text-red-300': props.deleting,
           }
         )}
       />
@@ -135,10 +152,12 @@ const Set = (props: SetProps) => {
       <label
         htmlFor={`setGroups.${props.setGroupIndex}.sets.${props.setIndex}.done`}
         className={clsx(
-          'flex h-6 w-7 cursor-pointer items-center justify-center rounded transition',
-          { 'bg-green-400 text-white': done },
+          'flex h-6 w-7 cursor-pointer items-center justify-center rounded-sm transition',
           {
-            'bg-gray-200 text-gray-900 hover:bg-gray-300': !done,
+            'bg-green-400 text-white': done && !props.deleting,
+            'bg-gray-200 text-gray-900 hover:bg-gray-300':
+              !done && !props.deleting,
+            'bg-transparent text-red-500': props.deleting,
           }
         )}
       >

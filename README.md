@@ -3,7 +3,6 @@
 ## Todos
 
 [ ] => Workout Page
-[ ] => Headless UI
 
 [ ] => Exercise picker
 [ ] => Solution for ISO exercises
@@ -13,3 +12,4 @@
 [X] => Auto-save
 [X] => Delete Button offset
 [X] => Drag and drop reorder exercises
+[X] => Headless UI

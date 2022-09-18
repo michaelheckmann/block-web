@@ -50,6 +50,7 @@ const DefaultProps = {
 
 export const EmptySetGroupProps: SetGroupProps = {
   ...DefaultProps,
+  order: 0,
   exercise: { exerciseId: 0, name: 'New Exercise', latestSetGroup: null },
   sets: [],
 }
@@ -66,6 +67,7 @@ export const ThreeSetGroupProps: SetGroupProps = {
 
 export const RealisticSetGroupProps: SetGroupProps = {
   ...DefaultProps,
+  order: 0,
   exercise: {
     exerciseId: 0,
     name: 'Single Leg Hip Thrust',
@@ -96,6 +98,7 @@ export const RealisticSetGroupProps: SetGroupProps = {
 
 export const LongNameSetGroupProps: SetGroupProps = {
   ...DefaultProps,
+  order: 0,
   exercise: {
     exerciseId: 0,
     name: 'Single Leg Hip Thrust (Smith Machine) [to failure]',

@@ -7,6 +7,7 @@ import { WorkoutFormType } from 'src/utils/types/WorkoutFormType'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import SetGroupCard from 'src/utils/components/SetGroupCard'
 import { useRef, useState } from 'react'
+import clsx from 'clsx'
 
 const defaultSetGroup = {
   exerciseId: 1,
@@ -16,6 +17,12 @@ type Props = {
 }
 
 const WorkoutForm = ({ workout }: Props) => {
+  // Used for the drag and drop reordering
+  const [flexContainerHeight, setFlexContainerHeight] = useState(undefined)
+  const setGroupContainerRef = useRef(null)
+  const setGroupCardRefs = useRef([])
+
+  // Form
   const methods = useForm<WorkoutFormType>({
     defaultValues: workout,
   })
@@ -143,6 +150,10 @@ const WorkoutForm = ({ workout }: Props) => {
     }
   }
 
+  /**
+   * It checks if the order of the set groups in the database is the same as the order of the set groups
+   * in the state. If it's not, it updates the order of the set groups in the database
+   */
   const checkSetGroupOrder = () => {
     getValues().setGroups.forEach((setGroup, index) => {
       if (setGroup.order !== index) {
@@ -158,22 +169,19 @@ const WorkoutForm = ({ workout }: Props) => {
     })
   }
 
+  // Handle the drag and drop reordering
   const handleDragEnd = ({ source, destination }) => {
     if (destination) {
       move(source.index, destination.index)
+      // Check if the order of the set groups in the database
+      // is the same as the order of the set groups
       checkSetGroupOrder()
     }
+    // Reset the flex container height
     setFlexContainerHeight(undefined)
   }
 
-  const handleDragStart = ({ source }) => {
-    source.index
-  }
-
-  const [flexContainerHeight, setFlexContainerHeight] = useState(undefined)
-  const setGroupContainerRef = useRef(null)
-  const setGroupCardRefs = useRef([])
-
+  // Executed in handleBeforeCapture because it needs to be executed before the drag starts
   const handleBeforeCapture = async ({ draggableId }) => {
     if (!draggableId) {
       setFlexContainerHeight(undefined)
@@ -182,7 +190,14 @@ const WorkoutForm = ({ workout }: Props) => {
     const index = fields.findIndex((f) => f.id === draggableId)
     const top = setGroupContainerRef.current.getBoundingClientRect().top
     const bottom = setGroupCardRefs.current[index].getBoundingClientRect().top
-    setFlexContainerHeight(bottom - top - 12 - 48 * index) // 12 = gap-3 , 40 = h-8 + p-2
+
+    // Expand the invisible container so that the grabbed item
+    // Is set still in it's place while the other exercises are moving
+    // 12 = gap-3 , 40 = h-10 + p-2
+    // 12 because the gap-3 between the set groups
+    // 48 * the number of exercises above the grabbed exercise,
+    // because the height of the shrunk set group is 48
+    setFlexContainerHeight(bottom - top - 12 - 48 * index)
   }
 
   return (
@@ -192,21 +207,30 @@ const WorkoutForm = ({ workout }: Props) => {
           <DragDropContext
             onBeforeCapture={handleBeforeCapture}
             onDragEnd={handleDragEnd}
-            onDragStart={handleDragStart}
           >
             <section className="flex flex-col gap-3">
+              {/* Dynamic invisible flex container */}
               <div
                 className="w-full"
                 style={{ height: flexContainerHeight ?? 0 }}
               ></div>
               <Droppable droppableId="setGroups">
                 {(provided) => (
-                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className={clsx('transition-all duration-100', {
+                      'space-y-8': flexContainerHeight === undefined,
+                      'space-y-0': flexContainerHeight !== undefined,
+                    })}
+                  >
                     {fields.map((item, setGroupIndex) => (
                       <Draggable
                         key={item.id}
                         draggableId={item.id}
                         index={setGroupIndex}
+                        // Disable reordering if there is only one set group
+                        isDragDisabled={fields.length < 2}
                       >
                         {(provided) => (
                           <div
@@ -236,10 +260,10 @@ const WorkoutForm = ({ workout }: Props) => {
               </Droppable>
               <button
                 type="button"
-                className="rounded bg-green-300 p-2 font-semibold"
+                className="w-full h-8 p-1 mt-2 font-medium tracking-wide text-gray-900 transition-colors bg-gray-200 rounded-sm text-md hover:bg-gray-300 active:bg-gray-300"
                 onClick={handleAppend}
               >
-                Add
+                + Add Exercise
               </button>
             </section>
           </DragDropContext>

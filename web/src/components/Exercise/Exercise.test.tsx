@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import ExerciseModal from './ExerciseModal'
+import Exercise from './Exercise'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('ExerciseModal', () => {
+describe('Exercise', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<ExerciseModal />)
+      render(<Exercise />)
     }).not.toThrow()
   })
 })

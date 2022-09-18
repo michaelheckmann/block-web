@@ -11,7 +11,7 @@ const THRESHOLD_ACCEPTABLE = 20
 export interface Props {
   onDelete: Function
   onDeleteConfirm?: Function
-  children: React.ReactNode
+  children: any
 }
 
 /**
@@ -156,11 +156,11 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
     <Transition
       appear={true}
       show={!deleting}
-      enter="transition-all duration-75 ease-out overflow-hidden bg-blue-500"
+      enter="transition-all duration-75 ease-out overflow-hidden"
       enterFrom="max-h-0"
-      enterTo="max-h-10"
-      leave="transition-all duration-200 ease-in overflow-hidden bg-blue-500"
-      leaveFrom="max-h-10"
+      enterTo="max-h-[43px]"
+      leave="transition-all duration-200 ease-in overflow-hidden"
+      leaveFrom="max-h-[43px]"
       leaveTo="max-h-0"
       afterEnter={() => {
         setTranslate(0)
@@ -170,18 +170,18 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
     >
       <ClickAwayListener onClickAway={onDeleteCancel}>
         <div
-          className="ease relative h-10 overflow-hidden rounded transition-all duration-200"
+          className="ease relative h-[43px] overflow-hidden rounded-sm transition-all duration-200"
           ref={container}
         >
           {/* Custom properties are necessary to avoid red line around children */}
-          <div className="absolute top-[1px] left-0 h-[38px] w-full rounded bg-red-500">
+          <div className="ease absolute top-[0px] left-0 h-[43px] w-full rounded-r-sm border-1 border-red-500 bg-red-400 transition duration-200 hover:bg-red-500">
             <button
               tabIndex={-1}
               type="button"
               aria-label="delete"
               onClick={onDeleteClick}
               className={clsx(
-                'absolute top-0 -right-20 h-full w-20 border-l-white bg-blue-400 font-medium text-white duration-200 ease-out',
+                'absolute top-0 -right-20 h-full w-20 font-medium tracking-wide text-white duration-200 ease-out',
                 {
                   'transition-transform': !touching,
                   hidden: !showButton,
@@ -193,14 +193,14 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
             </button>
           </div>
           <div
-            className={clsx('bg-white duration-200 ease-out', {
+            className={clsx('transition duration-200 ease-out', {
               'transition-transform': !touching,
             })}
             style={{ transform: `translateX(${translate}px)` }}
             onMouseDown={onStart}
             onTouchStart={onStart}
           >
-            {children}
+            {React.cloneElement(children, { deleting: translate !== 0 })}
           </div>
         </div>
       </ClickAwayListener>

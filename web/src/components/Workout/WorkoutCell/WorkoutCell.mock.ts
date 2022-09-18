@@ -7,9 +7,10 @@ export const standard = () => ({
     setGroups: [
       {
         id: 1,
+        order: 0,
         exercise: {
           id: 1,
-          name: 'Bench Press',
+          name: 'Reverse Grip Row (Smith Machine)',
           latestSetGroup: {
             sets: [
               {

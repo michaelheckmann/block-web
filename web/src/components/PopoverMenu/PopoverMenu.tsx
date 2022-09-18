@@ -42,14 +42,14 @@ const PopoverMenu = ({ children, actions }: Props) => {
       </Popover.Button>
       <Transition
         as={Fragment}
-        enter="transition duration-200 ease-out"
+        enter="duration-200 ease-out"
         enterFrom="opacity-0"
-        enterTo="opacity-10"
-        leave="duration-75 ease-out"
-        leaveFrom="opacity-10"
+        enterTo="opacity-100"
+        leave="duration-75 ease-in"
+        leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <Popover.Overlay className="fixed inset-0 z-30 bg-blue-900 opacity-10" />
+        <Popover.Overlay className="fixed inset-0 z-30 bg-white bg-opacity-60" />
       </Transition>
       <div
         ref={floating}
@@ -70,17 +70,17 @@ const PopoverMenu = ({ children, actions }: Props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Popover.Panel className="border-1 divide-y-2 divide-solid divide-gray-100 rounded border-gray-300 bg-white px-1 py-1 shadow">
+          <Popover.Panel className="text-gray-900 bg-white border-gray-300 divide-gray-300 rounded-sm shadow-lg divide-y-1 border-1 shadow-blue-900/10">
             {actions.map((action, index) => (
-              <div className="py-1" key={index}>
+              <div className="min-w-[60vw]" key={index}>
                 <Popover.Button
-                  className="group flex w-full items-center rounded-md px-3 py-2 text-left text-sm font-medium text-gray-900 outline-none transition duration-150 hover:bg-primary-400 hover:text-white focus:bg-primary-400 focus:text-white active:bg-primary-400 active:text-white disabled:bg-transparent disabled:text-gray-500"
+                  className="flex items-center justify-start w-full px-4 py-3 text-sm font-medium text-left transition duration-150 outline-none group hover:bg-gray-200 disabled:bg-white disabled:text-gray-500"
                   onClick={action.onClick}
                   disabled={action.disabled}
                   type="button"
                 >
                   {action.icon && (
-                    <span className="mr-1 h-4 w-4 text-primary-400 transition duration-150 group-hover:text-white group-focus:text-white group-active:text-white group-disabled:text-gray-500">
+                    <span className="w-4 h-4 mr-1 transition duration-150 group-disabled:text-gray-500">
                       {action.icon}
                     </span>
                   )}

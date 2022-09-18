@@ -110,7 +110,14 @@ module.exports = {
       //   900: '#845095',
       // },
     },
-    extend: {},
+    extend: {
+      borderWidth: {
+        1: '1.5px',
+      },
+      divideWidth: {
+        1: '1.5px',
+      },
+    },
   },
   plugins: [],
 }

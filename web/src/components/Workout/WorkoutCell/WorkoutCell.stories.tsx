@@ -1,14 +1,23 @@
 import GenericContext from 'src/utils/context/GenericContext'
-import WorkoutCell from '.'
+import { Loading, Failure, Success } from './WorkoutCell'
+import { standard } from './WorkoutCell.mock'
 
 const Template = (args) => (
   <GenericContext {...args}>
-    <WorkoutCell id={0} />
+    <Success {...standard()} {...args} />
   </GenericContext>
 )
 
 export const Generated = Template.bind({})
 
+export const loading = (args) => {
+  return Loading ? <Loading {...args} /> : null
+}
+
+export const failure = (args) => {
+  return Failure ? <Failure error={new Error('Oh no')} {...args} /> : null
+}
+
 export default {
-  title: 'Components/WorkoutCell',
+  title: 'Cells/WorkoutCell',
 }
