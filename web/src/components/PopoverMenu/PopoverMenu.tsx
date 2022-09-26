@@ -7,7 +7,7 @@ import {
 } from '@floating-ui/react-dom'
 import { Popover, Transition } from '@headlessui/react'
 import { Fragment, useEffect } from 'react'
-import ReactDOM from 'react-dom'
+import Portal from 'src/utils/components/Portal'
 
 /* Types */
 export type ActionType = {
@@ -43,19 +43,21 @@ export function PopoverMenu({ children, actions }: Props) {
         {children}
       </Popover.Button>
 
-      <PopoverContent
-        actions={actions}
-        x={x}
-        y={y}
-        floating={floating}
-        strategy={strategy}
-      />
+      <Portal id="popover-menu">
+        <PopoverContent
+          actions={actions}
+          x={x}
+          y={y}
+          floating={floating}
+          strategy={strategy}
+        />
+      </Portal>
     </Popover>
   )
 }
 
 function PopoverContent(props) {
-  return ReactDOM.createPortal(
+  return (
     <div className="">
       <Transition
         as={Fragment}
@@ -108,7 +110,6 @@ function PopoverContent(props) {
           </Popover.Panel>
         </Transition>
       </div>
-    </div>,
-    document.getElementById('popover-root')
+    </div>
   )
 }

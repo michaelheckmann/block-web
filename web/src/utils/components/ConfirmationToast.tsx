@@ -1,7 +1,7 @@
 import { Transition } from '@headlessui/react'
 import { toast, Toast } from '@redwoodjs/web/toast'
 import { Fragment, useState } from 'react'
-import ReactDOM from 'react-dom'
+import Portal from './Portal'
 
 type ConfirmationToastProps = {
   t: Toast
@@ -50,7 +50,9 @@ export function ConfirmationToast({
           </button>
         </div>
       </div>
-      <ToastOverlay onClick={handleDismiss} isOpen={isOpen} />
+      <Portal id={t.id}>
+        <ToastOverlay onClick={handleDismiss} isOpen={isOpen} />
+      </Portal>
     </>
   )
 }
@@ -62,7 +64,7 @@ function ToastOverlay({ isOpen, onClick }) {
   //     console.log('UNMOUNT OVERLAY')
   //   }
   // }, [])
-  return ReactDOM.createPortal(
+  return (
     <Transition
       appear
       show={isOpen}
@@ -78,7 +80,6 @@ function ToastOverlay({ isOpen, onClick }) {
         className="fixed inset-0 z-30 bg-white bg-opacity-70"
         onClick={onClick}
       />
-    </Transition>,
-    document.getElementById('toast-overlay')
+    </Transition>
   )
 }

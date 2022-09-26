@@ -1,10 +1,7 @@
 import { FormProvider, useForm } from '@redwoodjs/forms'
 import { RedwoodApolloProvider } from '@redwoodjs/web/dist/apollo'
 import Set, { SetProps } from 'src/components/Set'
-import {
-  generateWorkoutObject,
-  sortWorkout,
-} from 'src/components/Workout/WorkoutCell'
+import { generateWorkoutObject, sortWorkout } from 'src/components/WorkoutCell'
 import { standard } from 'src/components/WorkoutCell/WorkoutCell.mock'
 import { WorkoutFormType } from '../types/WorkoutFormType'
 

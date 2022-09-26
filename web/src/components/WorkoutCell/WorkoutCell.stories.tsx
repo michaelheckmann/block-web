@@ -1,5 +1,5 @@
 import GenericContext from 'src/utils/context/GenericContext'
-import { Loading, Failure, Success } from './WorkoutCell'
+import { Failure, Loading, Success } from './WorkoutCell'
 import { standard } from './WorkoutCell.mock'
 
 const Template = (args) => (
