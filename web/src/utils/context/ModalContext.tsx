@@ -1,6 +1,7 @@
 import { Dialog } from '@headlessui/react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ExerciseCell from 'src/components/ExerciseCell'
+import ExercisesCell from 'src/components/ExercisesCell'
 import Modal from 'src/components/Modal/Modal'
 
 type Props = {
@@ -78,6 +79,14 @@ export const ExerciseModalProps: Props = {
   content: () => (
     <>
       <ExerciseCell id={42} />
+    </>
+  ),
+}
+
+export const ExerciseSelectorModalProps: Props = {
+  content: () => (
+    <>
+      <ExercisesCell />
     </>
   ),
 }

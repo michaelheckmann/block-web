@@ -2,14 +2,16 @@
 
 ## Todos
 
-[ ] => Exercise picker
-[ ] => https://fusejs.io/getting-started/installation.html
+[ ] => Tests
 [ ] => Exercise History Bug
+
+[ ] => Auth
 
 [ ] => Timer
 [ ] => Add Ex Button Style
 
 [ ] => Animations
+[ ] => Loading
 
 [ ] => Notes
 
@@ -25,3 +27,5 @@
 [X] => Code Cleanup
 [X] => Finish Workout
 [X] => Delete Workout
+[X] => Exercise picker
+[X] => https://fusejs.io/getting-started/installation.html

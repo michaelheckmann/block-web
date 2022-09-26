@@ -1,14 +1,17 @@
 import { toast } from '@redwoodjs/web/toast'
+import { useState } from 'react'
 import { defaultSet } from 'src/components/SetGroup'
 import {
   remapLatestSetGroup,
-  remapSet,
+  remapSet
 } from 'src/components/WorkoutCell/WorkoutCell'
 import { ConfirmationToast } from 'src/utils/components/ConfirmationToast'
 import { useSetGroupMutation } from 'src/utils/hooks/useSetGroupMutation'
 import { useSetMutation } from 'src/utils/hooks/useSetMutation'
 import { useWorkoutMutation } from 'src/utils/hooks/useWorkoutMutation'
 import { WorkoutFormType } from 'src/utils/types/WorkoutFormType'
+import ExercisesCell from '../ExercisesCell'
+import Modal from '../Modal/Modal'
 
 /* Default */
 const defaultSetGroup = {
@@ -34,6 +37,8 @@ export function WorkoutFormButtonGroup({
   workout,
   disabled,
 }: Props) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   /* Mutations */
   // Set
   const setMutation = useSetMutation({
@@ -137,12 +142,11 @@ export function WorkoutFormButtonGroup({
   }
 
   /* Functions */
-  //TODO: Make this dynamic, user must have selected an exercise before calling this function
-  const appendSetGroup = () => {
+  const selectExercise = (id:number) => {
     setGroupMutation.createSetGroup.mutation({
       variables: {
         input: {
-          exerciseId: defaultSetGroup.exerciseId,
+          exerciseId: id,
           order: fields.length,
           workoutId: workout.workoutId,
         },
@@ -150,13 +154,14 @@ export function WorkoutFormButtonGroup({
     })
   }
 
+
   /* Render */
   return (
     <div className="flex flex-col gap-6 mt-8 mb-8">
       <button
         type="button"
         className="w-full h-10 p-1 font-medium tracking-wide text-gray-900 transition-colors bg-gray-200 rounded-sm text-md hover:bg-gray-300 active:bg-gray-300"
-        onClick={appendSetGroup}
+        onClick={() => setIsModalOpen(true)}
       >
         + Add Exercise
       </button>
@@ -168,6 +173,11 @@ export function WorkoutFormButtonGroup({
       >
         Finish Workout
       </button>
+
+            {/* Modal for the exercise details */}
+            <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
+        <ExercisesCell selectExercise={selectExercise}/>
+      </Modal>
     </div>
   )
 }

@@ -13252,6 +13252,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fuse.js@npm:^6.6.2":
+  version: 6.6.2
+  resolution: "fuse.js@npm:6.6.2"
+  checksum: c2fe4f234f516e9ea83b06f06f8f3c8b7117f51aa75bbccd052eed0c0423364bf1e360ffbf29cadae8ef6aa39476b7961eaf9d07bed779cea5c83d62b34e2df9
+  languageName: node
+  linkType: hard
+
 "gauge@npm:^3.0.0":
   version: 3.0.2
   resolution: "gauge@npm:3.0.2"
@@ -24333,6 +24340,7 @@ __metadata:
     "@testing-library/user-event": ^14.4.3
     autoprefixer: ^10.4.8
     clsx: ^1.2.1
+    fuse.js: ^6.6.2
     postcss: ^8.4.16
     postcss-loader: ^7.0.1
     prop-types: 15.8.1

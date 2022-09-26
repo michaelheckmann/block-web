@@ -1,6 +1,7 @@
 import ModalContext, {
   ComplexModalProps,
   ExerciseModalProps,
+  ExerciseSelectorModalProps,
   InitHiddenModalProps,
   SimpleModalProps,
 } from 'src/utils/context/ModalContext'
@@ -20,5 +21,8 @@ InitHiddenModal.args = InitHiddenModalProps
 
 export const ExerciseModal = Template.bind({})
 ExerciseModal.args = ExerciseModalProps
+
+export const ExerciseSelectorModal = Template.bind({})
+ExerciseSelectorModal.args = ExerciseSelectorModalProps
 
 export default { title: 'Components/Modal' }
