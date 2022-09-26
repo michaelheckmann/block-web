@@ -1,10 +1,10 @@
-import { omitStoryBookArgs } from 'src/utils/functions/omitStoryBookArgs'
 import SetContext, {
   DoneSetProps,
   FilledSetProps,
   NewSetProps,
   SetWithPreviousProps,
-} from '../../utils/context/SetContext'
+} from 'src/utils/context/SetContext'
+import { omitStoryBookArgs } from 'src/utils/functions/omitStoryBookArgs'
 
 const Template = (args) => {
   return <SetContext {...args} />

@@ -17,7 +17,7 @@ export const schema = gql`
   }
 
   input CreateSetGroupInput {
-    order: Int
+    order: Int!
     exerciseId: Int!
     workoutId: Int!
   }

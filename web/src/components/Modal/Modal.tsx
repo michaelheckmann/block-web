@@ -7,7 +7,7 @@ function Modal({ children, isOpen, setIsOpen }) {
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-60"
+          className="z-60 relative"
           onClose={() => setIsOpen(false)}
           unmount={false}
         >
@@ -20,11 +20,11 @@ function Modal({ children, isOpen, setIsOpen }) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 z-30 bg-white bg-opacity-60" />
+            <div className="fixed inset-0 z-30 bg-white bg-opacity-70" />
           </Transition.Child>
 
           <div className="fixed inset-0 z-40 overflow-y-auto">
-            <div className="flex items-center justify-center h-full px-4 py-10 text-center">
+            <div className="flex h-full items-center justify-center px-4 py-10 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-200"
@@ -34,7 +34,7 @@ function Modal({ children, isOpen, setIsOpen }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full h-full p-4 overflow-y-auto text-left align-middle transform bg-white border-gray-300 rounded-sm shadow-lg stransition-all border-1 shadow-blue-900/10">
+                <Dialog.Panel className="stransition-all h-full w-full transform overflow-y-auto rounded-sm border-1 border-gray-300 bg-white p-4 text-left align-middle shadow-lg shadow-blue-900/10">
                   {React.cloneElement(children, {
                     close: () => setIsOpen(false),
                   })}

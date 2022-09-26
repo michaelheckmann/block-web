@@ -29,86 +29,83 @@ export const MultiSetGroupExerciseProps: ExerciseProps = {
 export const RealisticExerciseProps: ExerciseProps = {
   exercise: {
     ...DefaultProps.exercise,
-    setGroups: [
-      {
-        id: 0,
-        order: 0,
-        workout: {
-          name: 'PPL - Push #1',
-          done: true,
-          createdAt: '2021-03-01T12:24:00.000Z',
-        },
-        sets: [
-          {
-            id: 0,
-            reps: 10,
-            weight: 100,
-          },
-          {
-            id: 1,
-            reps: 9,
-            weight: 100,
-          },
-          {
-            id: 2,
-            reps: 8,
-            weight: 100,
-          },
-        ],
-      },
-      {
-        id: 1,
-        order: 0,
-        workout: {
-          name: 'PPL - Push #1',
-          done: true,
-          createdAt: '2021-02-20T20:14:00.000Z',
-        },
-        sets: [
-          {
-            id: 0,
-            reps: 10,
-            weight: 95,
-          },
-          {
-            id: 1,
-            reps: 10,
-            weight: 95,
-          },
-          {
-            id: 2,
-            reps: 8,
-            weight: 100,
-          },
-        ],
-      },
-      {
-        id: 3,
-        order: 2,
-        workout: {
-          name: 'Custom',
-          done: true,
-          createdAt: '2021-02-16T21:12:13.000Z',
-        },
-        sets: [
-          {
-            id: 0,
-            reps: 10,
-            weight: 95,
-          },
-          {
-            id: 1,
-            reps: 10,
-            weight: 95,
-          },
-          {
-            id: 2,
-            reps: 10,
-            weight: 95,
-          },
-        ],
-      },
-    ],
+    // setGroups: [
+    //   {
+    //     id: 0,
+    //     order: 0,
+    //     workout: {
+    //       done: true,
+    //       createdAt: '2021-03-01T12:24:00.000Z',
+    //     },
+    //     sets: [
+    //       {
+    //         id: 0,
+    //         reps: 10,
+    //         weight: 100,
+    //       },
+    //       {
+    //         id: 1,
+    //         reps: 9,
+    //         weight: 100,
+    //       },
+    //       {
+    //         id: 2,
+    //         reps: 8,
+    //         weight: 100,
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     id: 1,
+    //     order: 0,
+    //     workout: {
+    //       done: true,
+    //       createdAt: '2021-02-20T20:14:00.000Z',
+    //     },
+    //     sets: [
+    //       {
+    //         id: 0,
+    //         reps: 10,
+    //         weight: 95,
+    //       },
+    //       {
+    //         id: 1,
+    //         reps: 10,
+    //         weight: 95,
+    //       },
+    //       {
+    //         id: 2,
+    //         reps: 8,
+    //         weight: 100,
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     id: 3,
+    //     order: 2,
+    //     workout: {
+    //       done: true,
+    //       createdAt: '2021-02-16T21:12:13.000Z',
+    //     },
+    //     sets: [
+    //       {
+    //         id: 0,
+    //         reps: 10,
+    //         weight: 95,
+    //       },
+    //       {
+    //         id: 1,
+    //         reps: 10,
+    //         weight: 95,
+    //       },
+    //       {
+    //         id: 2,
+    //         reps: 10,
+    //         weight: 95,
+    //       },
+    //     ],
+    //   },
+    // ],
   },
 }
 

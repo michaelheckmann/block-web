@@ -19,10 +19,19 @@ mockGraphQLMutation('CreateSetGroupMutation', ({ input }, obj) => {
   }
 })
 
-mockGraphQLMutation('DeleteSetGroupMutation', ({ id }) => {
-  console.log('DeleteSetGroupMutation Mock', id)
+mockGraphQLMutation('SaveWorkoutMutation', ({ id }) => {
+  console.log('SaveWorkoutMutation Mock', id)
   return {
-    deleteSetGroup: {
+    saveWorkout: {
+      id: id,
+    },
+  }
+})
+
+mockGraphQLMutation('DeleteWorkoutMutation', ({ id }) => {
+  console.log('DeleteWorkoutMutation Mock', id)
+  return {
+    deleteWorkout: {
       id: id,
     },
   }

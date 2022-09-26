@@ -1,12 +1,11 @@
 import { FormProvider, useForm } from '@redwoodjs/forms'
 import { RedwoodApolloProvider } from '@redwoodjs/web/dist/apollo'
-import React from 'react'
 import Set, { SetProps } from 'src/components/Set'
 import {
-  sortWorkout,
   generateWorkoutObject,
+  sortWorkout,
 } from 'src/components/Workout/WorkoutCell'
-import { standard } from 'src/components/Workout/WorkoutCell/WorkoutCell.mock'
+import { standard } from 'src/components/WorkoutCell/WorkoutCell.mock'
 import { WorkoutFormType } from '../types/WorkoutFormType'
 
 /*  It's a wrapper for the SetGroup component that

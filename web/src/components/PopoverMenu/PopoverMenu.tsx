@@ -1,13 +1,15 @@
+import {
+  autoUpdate,
+  flip,
+  offset,
+  shift,
+  useFloating,
+} from '@floating-ui/react-dom'
 import { Popover, Transition } from '@headlessui/react'
 import { Fragment, useEffect } from 'react'
-import {
-  useFloating,
-  offset,
-  flip,
-  autoUpdate,
-  shift,
-} from '@floating-ui/react-dom'
+import ReactDOM from 'react-dom'
 
+/* Types */
 export type ActionType = {
   label: string
   icon?: React.ReactNode
@@ -20,7 +22,7 @@ interface Props {
   actions: ActionType[]
 }
 
-const PopoverMenu = ({ children, actions }: Props) => {
+export function PopoverMenu({ children, actions }: Props) {
   const { x, y, reference, floating, strategy, update, refs } = useFloating({
     placement: 'bottom-end',
     strategy: 'fixed',
@@ -40,6 +42,21 @@ const PopoverMenu = ({ children, actions }: Props) => {
       <Popover.Button ref={reference} className="h-full" type="button">
         {children}
       </Popover.Button>
+
+      <PopoverContent
+        actions={actions}
+        x={x}
+        y={y}
+        floating={floating}
+        strategy={strategy}
+      />
+    </Popover>
+  )
+}
+
+function PopoverContent(props) {
+  return ReactDOM.createPortal(
+    <div className="">
       <Transition
         as={Fragment}
         enter="duration-200 ease-out"
@@ -49,19 +66,19 @@ const PopoverMenu = ({ children, actions }: Props) => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <Popover.Overlay className="fixed inset-0 z-30 bg-white bg-opacity-60" />
+        <Popover.Overlay className="fixed inset-0 z-30 bg-white bg-opacity-70" />
       </Transition>
       <div
-        ref={floating}
+        ref={props.floating}
         style={{
-          position: strategy,
-          top: y ?? 0,
-          left: x ?? 0,
+          position: props.strategy,
+          top: props.y ?? 0,
+          left: props.x ?? 0,
         }}
         className="z-40"
       >
         {/* Delay is needed as animation can be jumpy if button is in bottom
-        right corner */}
+      right corner */}
         <Transition
           enter="transition duration-200 ease-out delay-[20ms]"
           enterFrom="opacity-0"
@@ -71,7 +88,7 @@ const PopoverMenu = ({ children, actions }: Props) => {
           leaveTo="opacity-0"
         >
           <Popover.Panel className="text-gray-900 bg-white border-gray-300 divide-gray-300 rounded-sm shadow-lg divide-y-1 border-1 shadow-blue-900/10">
-            {actions.map((action, index) => (
+            {props.actions.map((action, index) => (
               <div className="min-w-[60vw]" key={index}>
                 <Popover.Button
                   className="flex items-center justify-start w-full px-4 py-3 text-sm font-medium text-left transition duration-150 outline-none group hover:bg-gray-200 disabled:bg-white disabled:text-gray-500"
@@ -91,8 +108,7 @@ const PopoverMenu = ({ children, actions }: Props) => {
           </Popover.Panel>
         </Transition>
       </div>
-    </Popover>
+    </div>,
+    document.getElementById('popover-root')
   )
 }
-
-export default PopoverMenu

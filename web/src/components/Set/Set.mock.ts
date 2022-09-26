@@ -1,5 +1,5 @@
 mockGraphQLMutation('UpdateSetMutation', ({ input }) => {
-  console.log('UpdateSetMutation Mock', input)
+  // console.log('UpdateSetMutation Mock', input)
   return {
     updateSet: {
       id: 0,

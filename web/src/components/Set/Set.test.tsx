@@ -1,11 +1,11 @@
 import { render, screen, waitFor } from '@redwoodjs/testing/web'
+import userEvent from '@testing-library/user-event'
 import SetContext, {
   DoneSetProps,
   FilledSetProps,
   NewSetProps,
   SetWithPreviousProps,
 } from 'src/utils/context/SetContext'
-import userEvent from '@testing-library/user-event'
 
 describe('Set', () => {
   it('renders a set', () => {

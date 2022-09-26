@@ -1,9 +1,10 @@
 mockGraphQLMutation('CreateSetMutation', ({ input }, obj) => {
-  console.log('CreateSetMutation Mock', input, obj)
+  // console.log('CreateSetMutation Mock', input, obj)
   return {
     createSet: {
       id: Math.floor(Math.random() * 100),
       setGroupId: 0,
+      order: input.order,
       weight: input.weight ?? 0,
       reps: input.reps ?? 0,
       done: input.done,
@@ -12,7 +13,7 @@ mockGraphQLMutation('CreateSetMutation', ({ input }, obj) => {
 })
 
 mockGraphQLMutation('DeleteSetMutation', ({ id }) => {
-  console.log('DeleteSetMutation Mock', id)
+  // console.log('DeleteSetMutation Mock', id)
   return {
     deleteSet: {
       id: id,

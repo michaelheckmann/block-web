@@ -25,6 +25,10 @@ export type SetGroupType = {
   sets: SetType[]
 }
 
+export type SetGroupProps = SetGroupType & {
+  setGroupIndex: number
+}
+
 export type WorkoutFormType = {
   workoutId: number
   name: string

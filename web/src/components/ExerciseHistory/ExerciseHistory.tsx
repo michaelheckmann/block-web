@@ -1,9 +1,9 @@
 import clsx from 'clsx'
 import { ExerciseProps } from 'src/components/Exercise/Exercise'
 import { formatTimestamp } from 'src/utils/functions/formatTimestamp'
-import { timeSince } from '../functions/timeSince'
+import { timeSince } from '../../utils/functions/timeSince'
 
-export function ExerciseHistory({ exercise }: ExerciseProps) {
+function ExerciseHistory({ exercise }: ExerciseProps) {
   return (
     <div className="flex flex-col gap-4">
       {exercise.setGroups.map((setGroup) => (
@@ -60,3 +60,5 @@ export function ExerciseHistory({ exercise }: ExerciseProps) {
     </div>
   )
 }
+
+export default ExerciseHistory

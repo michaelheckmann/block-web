@@ -1,14 +1,12 @@
-import { navigate, routes } from '@redwoodjs/router'
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
-
-import { EditWorkoutById } from 'types/graphql'
-import WorkoutForm from 'src/components/Workout/WorkoutForm'
+import type { CellFailureProps, CellSuccessProps } from '@redwoodjs/web'
+import WorkoutForm from 'src/components/WorkoutForm'
+import { deepCopy } from 'src/utils/functions/deepCopy'
 import {
   LatestSetGroupType,
   SetType,
   WorkoutFormType,
 } from 'src/utils/types/WorkoutFormType'
-import { deepCopy } from 'src/utils/functions/deepCopy'
+import { EditWorkoutById } from 'types/graphql'
 
 type workoutType = EditWorkoutById['workout']
 
@@ -51,27 +49,14 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({ workout }: CellSuccessProps<EditWorkoutById>) => {
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">
-          Edit Workout {workout.id}
-        </h2>
-      </header>
-      <div className="rw-segment-main">
-        <h1>{workout.name}</h1>
-        <WorkoutForm
-          workout={sortWorkout(generateWorkoutObject(workout))}
-          // onSave={(workout) => {
-          //   navigate(routes.workouts())
-          // }}
-        />
-      </div>
+    <div className="flex min-h-screen flex-col">
+      <WorkoutForm workout={sortWorkout(generateWorkoutObject(workout))} />
     </div>
   )
 }
 
 export function generateWorkoutObject(workout: workoutType): WorkoutFormType {
-  console.log('WORKOUT', workout)
+  // console.log('WORKOUT', workout)
   return {
     workoutId: workout.id,
     name: workout.name,

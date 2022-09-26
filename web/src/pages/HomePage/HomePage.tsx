@@ -1,25 +1,33 @@
-import { FormProvider, useFieldArray, useForm } from '@redwoodjs/forms'
-import { MetaTags, useMutation } from '@redwoodjs/web'
-import WorkoutsCell from 'src/components/Workout/WorkoutsCell'
-
-const CREATE_WORKOUT_MUTATION = gql`
-  mutation CreateWorkoutMutation($input: CreateWorkoutInput!) {
-    createWorkout(input: $input) {
-      id
-    }
-  }
-`
+import { navigate, routes } from '@redwoodjs/router'
+import WorkoutsCell from 'src/components/WorkoutsCell'
+import { useWorkoutMutation } from 'src/utils/hooks/useWorkoutMutation'
 
 const HomePage = () => {
-  const [createWorkout, { loading, error }] = useMutation(
-    CREATE_WORKOUT_MUTATION,
-    {
-      onCompleted: () => {},
-      onError: (error) => {},
-    }
-  )
+  const workoutMutation = useWorkoutMutation({
+    onCreationSuccess: ({ createWorkout }) => {
+      console.log('WORKOUT CREATED', createWorkout)
+      navigate(routes.workout({ id: createWorkout.id }))
+    },
+  })
 
-  return <WorkoutsCell />
+  const newWorkout = () => {
+    workoutMutation.createWorkout.mutation({
+      variables: {
+        input: {
+          name: 'New Workout',
+          done: false,
+          templateId: 1,
+        },
+      },
+    })
+  }
+
+  return (
+    <div className="">
+      <button onClick={newWorkout}>New Workout</button>
+      <WorkoutsCell />
+    </div>
+  )
 }
 
 export default HomePage

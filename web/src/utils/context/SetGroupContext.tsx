@@ -1,13 +1,10 @@
-import { useForm, useFieldArray, FormProvider } from '@redwoodjs/forms'
+import { FormProvider, useFieldArray, useForm } from '@redwoodjs/forms'
 import { RedwoodApolloProvider } from '@redwoodjs/web/dist/apollo'
-import React from 'react'
-import SetGroup, { SetGroupProps } from 'src/components/SetGroup'
-import {
-  sortWorkout,
-  generateWorkoutObject,
-} from 'src/components/Workout/WorkoutCell'
-import { standard } from 'src/components/Workout/WorkoutCell/WorkoutCell.mock'
+import SetGroup from 'src/components/SetGroup'
+import { generateWorkoutObject, sortWorkout } from 'src/components/WorkoutCell'
+import { standard } from 'src/components/WorkoutCell/WorkoutCell.mock'
 import { DoneSetProps, FilledSetProps } from 'src/utils/context/SetContext'
+import { SetGroupProps } from 'src/utils/types/WorkoutFormType'
 
 /*  It's a wrapper for the SetGroup component that
     allows us to pass in custom props to the component and

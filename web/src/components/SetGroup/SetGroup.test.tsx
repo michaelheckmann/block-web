@@ -1,10 +1,10 @@
 import { render, screen, waitFor } from '@redwoodjs/testing/web'
+import userEvent from '@testing-library/user-event'
 import SetGroupContext, {
   OneSetGroupProps,
   RealisticSetGroupProps,
   ThreeSetGroupProps,
 } from 'src/utils/context/SetGroupContext'
-import userEvent from '@testing-library/user-event'
 
 describe('SetGroup', () => {
   it('renders a set group', () => {

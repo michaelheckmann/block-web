@@ -1,18 +1,16 @@
-import { useFormContext, useFieldArray } from '@redwoodjs/forms'
-import { useEffect } from 'react'
-import Set from 'src/components/Set/Set'
-import SetWrapper from 'src/utils/components/SetWrapper'
+import { useFieldArray, useFormContext } from '@redwoodjs/forms'
+import Set from 'src/components/Set'
+import { Header } from 'src/components/SetGroupUtils/Header'
+import { Placeholder } from 'src/components/SetGroupUtils/Placeholder'
+import SetWrapper from 'src/components/SetWrapper/SetWrapper'
 import { useSetMutation } from 'src/utils/hooks/useSetMutation'
 import {
-  SetGroupType,
-  WorkoutFormType,
   LatestSetGroupType,
+  SetGroupProps,
+  WorkoutFormType,
 } from 'src/utils/types/WorkoutFormType'
 
-export type SetGroupProps = SetGroupType & {
-  setGroupIndex: number
-}
-
+/* Default Values */
 export const defaultSet = {
   done: false,
   weight: undefined,
@@ -24,123 +22,7 @@ const fallbackPreviousValues = {
   reps: undefined,
 }
 
-const SetGroup = ({ exercise, setGroupIndex }: SetGroupProps) => {
-  const { control, getValues } = useFormContext<WorkoutFormType>()
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: `setGroups.${setGroupIndex}.sets` as 'setGroups.0.sets',
-  })
-
-  const setMutation = useSetMutation({
-    onCreationSuccess: ({ createSet }) => {
-      console.log('SET CREATED')
-      append({
-        setId: createSet.id,
-        weight: createSet.weight,
-        reps: createSet.reps,
-        done: createSet.done,
-      })
-    },
-    onDeleteSuccess: ({ deleteSet }) => {
-      console.log('SET DELETED')
-      remove(
-        getValues().setGroups[setGroupIndex].sets.findIndex(
-          (set) => set.setId === deleteSet.id
-        )
-      )
-    },
-  })
-
-  const handleAppend = () => {
-    setMutation.createSet.mutation({
-      variables: {
-        input: {
-          ...defaultSet,
-          setGroupId: getValues().setGroups[setGroupIndex].setGroupId,
-        },
-      },
-    })
-  }
-
-  const handleDelete = (setIndex) => {
-    setMutation.deleteSet.mutation({
-      variables: {
-        id: getValues().setGroups[setGroupIndex].sets[setIndex].setId,
-      },
-    })
-  }
-
-  return (
-    <>
-      <Header />
-
-      {/* Main Set Content */}
-
-      <div className="mb-2 space-y-2">
-        {fields.length === 0 && <Placeholder />}
-        {fields.map((item, setIndex) => (
-          <SetWrapper
-            key={item.id}
-            onDelete={() => {
-              handleDelete(setIndex)
-            }}
-          >
-            <Set
-              {...item}
-              previous={getPreviousValues({
-                latestSetGroupValues: exercise.latestSetGroup,
-                setIndex,
-              })}
-              setGroupIndex={setGroupIndex}
-              setIndex={setIndex}
-            />
-          </SetWrapper>
-        ))}
-      </div>
-
-      <button
-        type="button"
-        className="h-8 w-full rounded-sm bg-gray-200 p-1 font-medium tracking-wide text-gray-900 transition-colors hover:bg-gray-300 active:bg-gray-300"
-        onClick={handleAppend}
-      >
-        + Add Set
-      </button>
-    </>
-  )
-}
-
-const Header = () => (
-  <div className="mb-2 flex w-full justify-between gap-3 px-2 text-center font-medium text-gray-900">
-    <div className="w-5">Set</div>
-    <div className="flex-grow">Previous</div>
-    <div className="w-12">KG</div>
-    <div className="w-12">Reps</div>
-    <div className="w-7">✓</div>
-  </div>
-)
-
-const Placeholder = () => (
-  <div className="flex h-10 w-full animate-pulse items-center justify-center gap-3 p-2">
-    <div className="w-5">
-      <div className="h-1 w-full rounded-full bg-gray-200"></div>
-    </div>
-    <div className="flex-grow">
-      <div className="h-1 w-full rounded-full bg-gray-200"></div>
-    </div>
-    <div className="w-12">
-      <div className="h-1 w-full rounded-full bg-gray-200"></div>
-    </div>
-    <div className="w-12">
-      <div className="h-1 w-full rounded-full bg-gray-200"></div>
-    </div>
-    <div className="w-7">
-      <div className="h-1 w-full rounded-full bg-gray-200"></div>
-    </div>
-  </div>
-)
-
-export default SetGroup
-
+/* Functions */
 function getPreviousValues({
   latestSetGroupValues,
   setIndex,
@@ -163,3 +45,95 @@ function getPreviousValues({
     reps: previousSet.reps,
   }
 }
+
+/* Component */
+const SetGroup = ({ exercise, setGroupIndex }: SetGroupProps) => {
+  /* Hooks */
+  const { control, getValues } = useFormContext<WorkoutFormType>()
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `setGroups.${setGroupIndex}.sets` as 'setGroups.0.sets',
+  })
+
+  /* Mutations */
+  const setMutation = useSetMutation({
+    onCreationSuccess: ({ createSet }) => {
+      // console.log('SET CREATED')
+      append({
+        setId: createSet.id,
+        weight: createSet.weight,
+        reps: createSet.reps,
+        done: createSet.done,
+      })
+    },
+    onDeleteSuccess: ({ deleteSet }) => {
+      // console.log('SET DELETED')
+      remove(
+        getValues().setGroups[setGroupIndex].sets.findIndex(
+          (set) => set.setId === deleteSet.id
+        )
+      )
+    },
+  })
+
+  const appendSet = () => {
+    setMutation.createSet.mutation({
+      variables: {
+        input: {
+          ...defaultSet,
+          setGroupId: getValues().setGroups[setGroupIndex].setGroupId,
+        },
+      },
+    })
+  }
+
+  const deleteSet = (setIndex) => {
+    setMutation.deleteSet.mutation({
+      variables: {
+        id: getValues().setGroups[setGroupIndex].sets[setIndex].setId,
+      },
+    })
+  }
+
+  /* Render */
+  return (
+    <>
+      <Header />
+
+      {/* Main Set Content */}
+
+      <div className="mb-2 space-y-2">
+        {fields.length === 0 && <Placeholder />}
+        {fields.map((item, setIndex) => (
+          <SetWrapper
+            key={item.id}
+            onDelete={() => {
+              deleteSet(setIndex)
+            }}
+          >
+            <Set
+              {...item}
+              previous={getPreviousValues({
+                latestSetGroupValues: exercise.latestSetGroup,
+                setIndex,
+              })}
+              setGroupIndex={setGroupIndex}
+              setIndex={setIndex}
+              handleDelete={() => deleteSet(setIndex)}
+            />
+          </SetWrapper>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        className="h-8 w-full rounded-sm bg-gray-200 p-1 font-medium tracking-wide text-gray-900 transition-colors hover:bg-gray-300 active:bg-gray-300"
+        onClick={appendSet}
+      >
+        + Add Set
+      </button>
+    </>
+  )
+}
+
+export default SetGroup

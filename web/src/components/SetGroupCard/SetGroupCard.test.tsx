@@ -1,23 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import Exercise from './Exercise'
+import SetGroupCard from './SetGroupCard'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('Exercise', () => {
+describe('SetGroupCard', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(
-        <Exercise
-          exercise={{
-            __typename: 'Exercise',
-            id: 0,
-            name: '',
-            setGroups: [],
-          }}
-        />
-      )
+      render(<SetGroupCard />)
     }).not.toThrow()
   })
 })

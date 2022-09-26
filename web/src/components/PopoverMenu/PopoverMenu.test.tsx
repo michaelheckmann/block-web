@@ -1,12 +1,11 @@
 import { render, screen, waitFor } from '@redwoodjs/testing/web'
-import PopoverMenuContext from 'src/utils/context/PopoverMenuContext'
-import {
-  TopLeftProps,
+import userEvent from '@testing-library/user-event'
+import PopoverMenuContext, {
   BottomLeftProps,
   BottomRightProps,
+  TopLeftProps,
   TopRightProps,
 } from 'src/utils/context/PopoverMenuContext'
-import userEvent from '@testing-library/user-event'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components

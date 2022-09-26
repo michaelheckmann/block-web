@@ -30,6 +30,7 @@ export const schema = gql`
   type Mutation {
     createWorkout(input: CreateWorkoutInput!): Workout! @requireAuth
     updateWorkout(id: Int!, input: UpdateWorkoutInput!): Workout! @requireAuth
+    saveWorkout(id: Int!): Workout! @requireAuth
     deleteWorkout(id: Int!): Workout! @requireAuth
   }
 `

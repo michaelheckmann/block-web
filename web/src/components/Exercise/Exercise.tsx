@@ -1,14 +1,18 @@
-import { ExerciseType } from '../ExerciseCell/ExerciseCell'
 import { Tab } from '@headlessui/react'
-import { ExerciseHistory } from '../../utils/components/ExerciseHistory'
 import clsx from 'clsx'
+import ExerciseHistory from 'src/components/ExerciseHistory/ExerciseHistory'
+import { FindExerciseQuery } from 'types/graphql'
 
+/* Variables */
+const TABS = ['Details', 'History']
+
+/* Types */
 export type ExerciseProps = {
-  exercise: ExerciseType
+  exercise: FindExerciseQuery['exercise']
 }
 
+/* Component */
 const Exercise = ({ exercise }: ExerciseProps) => {
-  const tabs = ['Details', 'History']
   return (
     <div className="text-gray-900">
       <div className="mb-4">
@@ -18,7 +22,7 @@ const Exercise = ({ exercise }: ExerciseProps) => {
       </div>
       <Tab.Group defaultIndex={1}>
         <Tab.List className="flex gap-3 mb-2 justify-evenly">
-          {tabs.map((tab) => (
+          {TABS.map((tab) => (
             <Tab key={tab} className="w-full">
               {({ selected }) => (
                 <div

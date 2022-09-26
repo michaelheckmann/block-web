@@ -1,19 +1,15 @@
 // https://github.com/arnaudambro/react-swipe-to-delete-ios
 
+import { Transition } from '@headlessui/react'
 import clsx from 'clsx'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
-import { Transition } from '@headlessui/react'
 
+/* Constants */
 const THRESHOLD_NO_CONFIRM = 50
-const THRESHOLD_ACCEPTABLE = 20
+// const THRESHOLD_ACCEPTABLE = 20
 
-export interface Props {
-  onDelete: Function
-  onDeleteConfirm?: Function
-  children: any
-}
-
+/* Functions */
 /**
  * If the event has a clientX property, return it, otherwise return undefined.
  * @param {any} event - any - The event object that is passed to the function.
@@ -27,7 +23,15 @@ const cursorPosition = (event: any) => {
   return event?.nativeEvent?.clientX
 }
 
+/* Types */
+interface Props {
+  onDelete: Function
+  onDeleteConfirm?: Function
+  children: any
+}
+
 const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
+  /* Hooks */
   const [touching, setTouching] = useState(false)
   const [translate, setTranslate] = useState(0)
   const [deleting, setDeleting] = useState(false)
@@ -36,6 +40,8 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
   const startTouchPosition = useRef(0)
   const initTranslate = useRef(0)
   const container = useRef<HTMLDivElement>(null)
+
+  /* Variables */
   const containerWidth: number =
     container.current?.getBoundingClientRect().width || 0
   // Hard-coded the value to 80px to match the width of the delete button
@@ -43,6 +49,7 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
   const deleteWithoutConfirmThreshold: number =
     containerWidth * (THRESHOLD_NO_CONFIRM / 100)
 
+  /* Functions */
   /* A function that is called when the user starts to touch the screen. */
   const onStart = useCallback(
     (event: React.TouchEvent | React.MouseEvent) => {
@@ -130,6 +137,7 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
     [containerWidth, deleteWithoutConfirmThreshold, onDeleteClick, translate]
   )
 
+  /* Effects */
   useEffect(() => {
     if (touching) {
       window.addEventListener('mousemove', onMouseMove)
@@ -150,9 +158,9 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
     }
   }, [onMouseMove, onMouseUp, onTouchMove, touching])
 
+  /* Render */
   return (
     // In-And-Out animation
-
     <Transition
       appear={true}
       show={!deleting}
@@ -200,6 +208,7 @@ const SetWrapper = ({ onDelete, onDeleteConfirm, children }: Props) => {
             onMouseDown={onStart}
             onTouchStart={onStart}
           >
+            {/* React.cloneElement was chosen to pass props to children */}
             {React.cloneElement(children, { deleting: translate !== 0 })}
           </div>
         </div>

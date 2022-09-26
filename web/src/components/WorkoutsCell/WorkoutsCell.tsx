@@ -1,9 +1,8 @@
 import type { FindWorkouts } from 'types/graphql'
 
-import { Link, routes } from '@redwoodjs/router'
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+import type { CellFailureProps, CellSuccessProps } from '@redwoodjs/web'
 
-import Workouts from 'src/components/Workout/Workouts'
+import Workouts from 'src/components/Workouts'
 
 export const QUERY = gql`
   query FindWorkouts {

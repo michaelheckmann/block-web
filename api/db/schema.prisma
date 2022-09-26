@@ -29,7 +29,7 @@ model SetGroup {
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
 
   workoutId Int
-  workout   Workout @relation(fields: [workoutId], references: [id])
+  workout   Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
 
   order Int
 
@@ -44,7 +44,7 @@ model Set {
   done   Boolean
 
   setGroupId Int
-  setGroup   SetGroup @relation(fields: [setGroupId], references: [id])
+  setGroup   SetGroup @relation(fields: [setGroupId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
