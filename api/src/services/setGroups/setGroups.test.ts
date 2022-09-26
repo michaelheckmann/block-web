@@ -1,9 +1,9 @@
 import {
-  setGroups,
-  setGroup,
   createSetGroup,
-  updateSetGroup,
   deleteSetGroup,
+  setGroup,
+  setGroups,
+  updateSetGroup,
 } from './setGroups'
 import type { StandardScenario } from './setGroups.scenarios'
 
@@ -31,6 +31,7 @@ describe('setGroups', () => {
       input: {
         exerciseId: scenario.setGroup.two.exerciseId,
         workoutId: scenario.setGroup.two.workoutId,
+        order: scenario.setGroup.two.order,
       },
     })
 

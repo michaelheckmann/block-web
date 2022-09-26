@@ -1,4 +1,5 @@
 import { render } from '@redwoodjs/testing/web'
+import { standard } from '../ExercisesCell/ExercisesCell.mock'
 
 import ExerciseSelector from './ExerciseSelector'
 
@@ -8,7 +9,12 @@ import ExerciseSelector from './ExerciseSelector'
 describe('ExerciseSelector', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<ExerciseSelector />)
+      render(
+        <ExerciseSelector
+          exercises={standard().exercises}
+          handleExerciseSelect={() => {}}
+        />
+      )
     }).not.toThrow()
   })
 })

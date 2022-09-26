@@ -89,17 +89,17 @@ function PopoverContent(props) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Popover.Panel className="text-gray-900 bg-white border-gray-300 divide-gray-300 rounded-sm shadow-lg divide-y-1 border-1 shadow-blue-900/10">
+          <Popover.Panel className="divide-y-1 divide-gray-300 rounded-sm border-1 border-gray-300 bg-white text-gray-900 shadow-lg shadow-blue-900/10">
             {props.actions.map((action, index) => (
               <div className="min-w-[60vw]" key={index}>
                 <Popover.Button
-                  className="flex items-center justify-start w-full px-4 py-3 text-sm font-medium text-left transition duration-150 outline-none group hover:bg-gray-200 disabled:bg-white disabled:text-gray-500"
+                  className="group flex w-full items-center justify-start px-4 py-3 text-left text-sm font-medium outline-none transition duration-150 hover:bg-gray-200 disabled:bg-white disabled:text-gray-500"
                   onClick={action.onClick}
                   disabled={action.disabled}
                   type="button"
                 >
                   {action.icon && (
-                    <span className="w-4 h-4 mr-1 transition duration-150 group-disabled:text-gray-500">
+                    <span className="mr-1 h-4 w-4 transition duration-150 group-disabled:text-gray-500">
                       {action.icon}
                     </span>
                   )}

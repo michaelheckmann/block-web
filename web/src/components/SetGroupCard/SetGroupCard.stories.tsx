@@ -1,10 +1,12 @@
-import SetGroupCardContext, {
+import SetGroupCardContext from 'src/utils/context/SetGroupCardContext'
+
+import {
   EmptySetGroupProps,
   LongNameSetGroupProps,
   OneSetGroupProps,
   RealisticSetGroupProps,
   ThreeSetGroupProps,
-} from 'src/utils/context/SetGroupCardContext'
+} from 'src/utils/context/SetGroupContext'
 import { omitStoryBookArgs } from 'src/utils/functions/omitStoryBookArgs'
 
 const Template = (args) => <SetGroupCardContext {...args} />

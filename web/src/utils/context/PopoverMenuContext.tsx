@@ -1,11 +1,11 @@
 import {
-  PencilIcon,
   ArrowPathIcon,
+  PencilIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import React from 'react'
-import PopoverMenu, { ActionType } from 'src/components/PopoverMenu/PopoverMenu'
+import { ActionType, PopoverMenu } from 'src/components/PopoverMenu'
 
 interface Props {
   classes?: string

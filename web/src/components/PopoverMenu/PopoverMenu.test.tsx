@@ -11,10 +11,6 @@ import PopoverMenuContext, {
 //    https://redwoodjs.com/docs/testing#testing-components
 
 describe('PopoverMenu', () => {
-  beforeEach(() => {
-    global.ResizeObserver = require('resize-observer-polyfill')
-  })
-
   it('renders a popover menu in top left corner', async () => {
     const user = userEvent.setup()
     render(<PopoverMenuContext {...TopLeftProps} />)

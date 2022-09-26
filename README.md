@@ -10,8 +10,8 @@
 [ ] => Timer
 [ ] => Add Ex Button Style
 
-[ ] => Animations
-[ ] => Loading
+[ ] => Animations & Popover Styles
+[ ] => Loading & Error
 
 [ ] => Notes
 

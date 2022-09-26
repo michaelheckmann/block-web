@@ -3,6 +3,7 @@
 const config = {
   rootDir: '../',
   preset: '@redwoodjs/testing/config/jest/web',
+  setupFilesAfterEnv: ['<rootDir>/web/config/setup-jest.js'],
 }
 
 module.exports = config

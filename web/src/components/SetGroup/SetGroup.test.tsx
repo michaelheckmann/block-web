@@ -9,9 +9,6 @@ import SetGroupContext, {
 describe('SetGroup', () => {
   it('renders a set group', () => {
     render(<SetGroupContext {...ThreeSetGroupProps} />)
-    const exerciseName = screen.getByText(ThreeSetGroupProps.exercise.name)
-
-    expect(exerciseName).toBeInTheDocument()
 
     // Make sure there are as many sets as defined in the SetGroupProps
     for (let i = 0; i < ThreeSetGroupProps.sets.length; i++) {

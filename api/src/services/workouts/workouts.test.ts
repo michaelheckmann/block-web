@@ -1,9 +1,9 @@
 import {
-  workouts,
-  workout,
   createWorkout,
-  updateWorkout,
   deleteWorkout,
+  updateWorkout,
+  workout,
+  workouts,
 } from './workouts'
 import type { StandardScenario } from './workouts.scenarios'
 
