@@ -1,4 +1,4 @@
-import { render } from '@redwoodjs/testing/web'
+import { render, screen } from '@redwoodjs/testing/web'
 
 import HomePage from './HomePage'
 
@@ -6,9 +6,13 @@ import HomePage from './HomePage'
 //   https://redwoodjs.com/docs/testing#testing-pages-layouts
 
 describe('HomePage', () => {
+  // beforeEach(() => {
+  //   mockCurrentUser({ id: 1 })
+  // })
+
   it('renders successfully', () => {
-    expect(() => {
-      render(<HomePage />)
-    }).not.toThrow()
+    render(<HomePage />)
+    const button = screen.getByText('New Workout')
+    expect(button).toBeInTheDocument()
   })
 })
