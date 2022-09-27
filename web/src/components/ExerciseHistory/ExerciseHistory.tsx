@@ -4,13 +4,19 @@ import { formatTimestamp } from 'src/utils/functions/formatTimestamp'
 import { timeSince } from '../../utils/functions/timeSince'
 
 function ExerciseHistory({ exercise }: ExerciseProps) {
+  const sortedSetGroups = [...exercise.setGroups].sort((a, b) => {
+    const aCreatedAt = new Date(a.workout.createdAt)
+    const bCreatedAt = new Date(b.workout.createdAt)
+    return bCreatedAt.getTime() - aCreatedAt.getTime()
+  })
+
   return (
     <div className="flex flex-col gap-4">
-      {exercise.setGroups.map((setGroup) => (
-        <div key={setGroup.id} className="border-gray-300 rounded border-1">
+      {sortedSetGroups.map((setGroup) => (
+        <div key={setGroup.id} className="rounded border-1 border-gray-300">
           {/* Card Header */}
-          <div className="p-2 border-gray-300 border-b-1">
-            <div className="flex justify-between w-full text-gray-700">
+          <div className="border-b-1 border-gray-300 p-2">
+            <div className="flex w-full justify-between text-gray-700">
               <p>
                 {formatTimestamp(setGroup.workout.createdAt, false)} (
                 {timeSince(setGroup.workout.createdAt, new Date())} ago)

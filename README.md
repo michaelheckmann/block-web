@@ -2,8 +2,7 @@
 
 ## Todos
 
-[ ] => Tests
-[ ] => Exercise History Bug
+[X] => Exercise History Bug
 
 [ ] => Auth
 
@@ -29,3 +28,4 @@
 [X] => Delete Workout
 [X] => Exercise picker
 [X] => https://fusejs.io/getting-started/installation.html
+[X] => Tests
