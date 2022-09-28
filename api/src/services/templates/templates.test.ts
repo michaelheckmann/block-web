@@ -1,9 +1,9 @@
 import {
-  templates,
-  template,
   createTemplate,
-  updateTemplate,
   deleteTemplate,
+  template,
+  templates,
+  updateTemplate,
 } from './templates'
 import type { StandardScenario } from './templates.scenarios'
 
@@ -26,9 +26,9 @@ describe('templates', () => {
     expect(result).toEqual(scenario.template.one)
   })
 
-  scenario('creates a template', async () => {
+  scenario('creates a template', async (scenario: StandardScenario) => {
     const result = await createTemplate({
-      input: { name: 'String' },
+      input: { name: 'String', userId: scenario.template.one.userId },
     })
 
     expect(result.name).toEqual('String')

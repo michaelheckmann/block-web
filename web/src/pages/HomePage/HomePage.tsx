@@ -1,6 +1,5 @@
 import { useAuth } from '@redwoodjs/auth'
 import { navigate, routes } from '@redwoodjs/router'
-import WorkoutsCell from 'src/components/WorkoutsCell'
 import { useWorkoutMutation } from 'src/utils/hooks/useWorkoutMutation'
 
 const HomePage = () => {
@@ -40,7 +39,7 @@ const HomePage = () => {
       >
         New Workout
       </button>
-      <WorkoutsCell />
+      {/* <WorkoutsCell /> */}
     </div>
   )
 }

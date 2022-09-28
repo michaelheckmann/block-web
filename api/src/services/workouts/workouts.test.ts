@@ -26,9 +26,13 @@ describe('workouts', () => {
     expect(result).toEqual(scenario.workout.one)
   })
 
-  scenario('creates a workout', async () => {
+  scenario('creates a workout', async (scenario: StandardScenario) => {
     const result = await createWorkout({
-      input: { name: 'String', done: true },
+      input: {
+        name: 'String',
+        done: true,
+        userId: scenario.workout.one.userId,
+      },
     })
 
     expect(result.name).toEqual('String')

@@ -1,9 +1,9 @@
 import {
-  exercises,
-  exercise,
   createExercise,
-  updateExercise,
   deleteExercise,
+  exercise,
+  exercises,
+  updateExercise,
 } from './exercises'
 import type { StandardScenario } from './exercises.scenarios'
 
@@ -26,9 +26,9 @@ describe('exercises', () => {
     expect(result).toEqual(scenario.exercise.one)
   })
 
-  scenario('creates a exercise', async () => {
+  scenario('creates a exercise', async (scenario: StandardScenario) => {
     const result = await createExercise({
-      input: { name: 'String' },
+      input: { name: 'String', userId: scenario.exercise.one.userId },
     })
 
     expect(result.name).toEqual('String')

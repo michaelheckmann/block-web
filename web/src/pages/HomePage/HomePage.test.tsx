@@ -1,4 +1,5 @@
 import { render, screen } from '@redwoodjs/testing/web'
+import { standard } from 'src/components/WorkoutsCell/WorkoutsCell.mock'
 
 import HomePage from './HomePage'
 
@@ -6,11 +7,12 @@ import HomePage from './HomePage'
 //   https://redwoodjs.com/docs/testing#testing-pages-layouts
 
 describe('HomePage', () => {
-  // beforeEach(() => {
-  //   mockCurrentUser({ id: 1 })
-  // })
-
   it('renders successfully', () => {
+    mockGraphQLQuery('FindWorkouts', () => {
+      return {
+        ...standard(),
+      }
+    })
     render(<HomePage />)
     const button = screen.getByText('New Workout')
     expect(button).toBeInTheDocument()
