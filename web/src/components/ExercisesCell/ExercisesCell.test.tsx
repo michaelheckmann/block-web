@@ -1,5 +1,5 @@
-import { render, screen } from '@redwoodjs/testing/web'
-import { Loading, Empty, Failure, Success } from './ExercisesCell'
+import { render } from '@redwoodjs/testing/web'
+import { Empty, Failure, Loading, Success } from './ExercisesCell'
 import { standard } from './ExercisesCell.mock'
 
 // Generated boilerplate tests do not account for all circumstances
@@ -35,7 +35,7 @@ describe('ExercisesCell', () => {
 
   it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success exercises={standard().exercises} />)
+      render(<Success exercisesByUserId={standard().exercisesByUserId} />)
     }).not.toThrow()
   })
 })

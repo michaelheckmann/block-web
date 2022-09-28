@@ -74,6 +74,19 @@ describe('SetGroup', () => {
   })
 
   it('allows you to add a set', async () => {
+    mockGraphQLMutation('CreateSetMutation', ({ input }, obj) => {
+      // console.log('CreateSetMutation Mock', input, obj)
+      return {
+        createSet: {
+          id: Math.floor(Math.random() * 100),
+          setGroupId: 0,
+          order: input.order,
+          weight: input.weight ?? 0,
+          reps: input.reps ?? 0,
+          done: input.done,
+        },
+      }
+    })
     const user = userEvent.setup()
     render(<SetGroupContext {...OneSetGroupProps} />)
     let setContainerDivs = screen.getAllByTestId('set-container-div')

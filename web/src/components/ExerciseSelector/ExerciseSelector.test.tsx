@@ -11,7 +11,7 @@ describe('ExerciseSelector', () => {
     expect(() => {
       render(
         <ExerciseSelector
-          exercises={standard().exercises}
+          exercises={standard().exercisesByUserId}
           handleExerciseSelect={() => {}}
         />
       )
