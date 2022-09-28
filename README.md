@@ -2,17 +2,19 @@
 
 ## Todos
 
-[X] => Exercise History Bug
-
-[ ] => Auth
+[ ] => null to 0 on save
+[ ] => Improve exercise schema
+[ ] => Improve exercise style
+[ ] => Animations & Popover Styles
+[ ] => Login / Logout Pages
 
 [ ] => Timer
-[ ] => Add Ex Button Style
 
-[ ] => Animations & Popover Styles
 [ ] => Loading & Error
 
 [ ] => Notes
+
+[ ] => Profile with Settings
 
 [ ] => Solution for ISO exercises
 [ ] => Solution for weight with / without bar
@@ -29,3 +31,5 @@
 [X] => Exercise picker
 [X] => https://fusejs.io/getting-started/installation.html
 [X] => Tests
+[X] => Auth
+[X] => Exercise History Bug

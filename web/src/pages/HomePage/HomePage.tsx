@@ -11,7 +11,7 @@ const HomePage = () => {
     },
   })
 
-  const { logOut } = useAuth()
+  const { currentUser, logOut } = useAuth()
 
   const newWorkout = () => {
     workoutMutation.createWorkout.mutation({
@@ -20,6 +20,7 @@ const HomePage = () => {
           name: 'New Workout',
           done: false,
           templateId: 1,
+          userId: currentUser.id,
         },
       },
     })

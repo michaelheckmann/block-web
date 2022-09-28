@@ -12,12 +12,14 @@ export const schema = gql`
 
   type Query {
     workouts: [Workout!]! @requireAuth
+    workoutsByUserId(id: Int!): [Workout!]! @requireAuth
     workout(id: Int!): Workout @requireAuth
   }
 
   input CreateWorkoutInput {
     name: String!
     done: Boolean!
+    userId: Int!
     templateId: Int
   }
 

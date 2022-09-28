@@ -10,11 +10,13 @@ export const schema = gql`
 
   type Query {
     exercises: [Exercise!]! @requireAuth
+    exercisesByUserId(id: Int!): [Exercise!]! @requireAuth
     exercise(id: Int!): Exercise @requireAuth
   }
 
   input CreateExerciseInput {
     name: String!
+    userId: Int!
   }
 
   input UpdateExerciseInput {

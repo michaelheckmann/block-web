@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { ExerciseProps } from 'src/components/Exercise/Exercise'
 import { formatTimestamp } from 'src/utils/functions/formatTimestamp'
-import { timeSince } from '../../utils/functions/timeSince'
+import { timeSince } from 'src/utils/functions/timeSince'
 
 function ExerciseHistory({ exercise }: ExerciseProps) {
   const sortedSetGroups = [...exercise.setGroups].sort((a, b) => {

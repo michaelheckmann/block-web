@@ -1,5 +1,5 @@
 export const standard = () => ({
-  workouts: [
+  workoutsByUserId: [
     {
       name: 'String',
       done: true,

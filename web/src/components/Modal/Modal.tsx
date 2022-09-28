@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 
-function Modal({ children, isOpen, setIsOpen }) {
+const Modal = ({ children, isOpen, setIsOpen }) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>

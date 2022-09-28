@@ -5,6 +5,9 @@ export const decorators = [
     <AuthContext.Provider
       value={{
         isAuthenticated: true,
+        userMetadata: {
+          id: 1,
+        },
       }}
     >
       <Story />

@@ -1,14 +1,24 @@
 import type {
-  QueryResolvers,
-  MutationResolvers,
-  ExerciseResolvers,
   ExerciselatestSetGroupArgs,
+  ExerciseResolvers,
+  MutationResolvers,
+  QueryResolvers,
 } from 'types/graphql'
 
 import { db } from 'src/lib/db'
 
 export const exercises: QueryResolvers['exercises'] = () => {
   return db.exercise.findMany()
+}
+
+export const exercisesByUserId: QueryResolvers['exercisesByUserId'] = ({
+  id,
+}) => {
+  return db.exercise.findMany({
+    where: {
+      userId: id,
+    },
+  })
 }
 
 export const exercise: QueryResolvers['exercise'] = ({ id }) => {

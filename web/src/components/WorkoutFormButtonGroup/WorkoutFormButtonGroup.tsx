@@ -1,22 +1,18 @@
 import { toast } from '@redwoodjs/web/toast'
 import { useState } from 'react'
+import ExercisesCell from 'src/components/ExercisesCell'
+import Modal from 'src/components/Modal'
+import NewExercise from 'src/components/NewExercise'
 import { defaultSet } from 'src/components/SetGroup'
 import {
   remapLatestSetGroup,
-  remapSet
+  remapSet,
 } from 'src/components/WorkoutCell/WorkoutCell'
 import { ConfirmationToast } from 'src/utils/components/ConfirmationToast'
 import { useSetGroupMutation } from 'src/utils/hooks/useSetGroupMutation'
 import { useSetMutation } from 'src/utils/hooks/useSetMutation'
 import { useWorkoutMutation } from 'src/utils/hooks/useWorkoutMutation'
 import { WorkoutFormType } from 'src/utils/types/WorkoutFormType'
-import ExercisesCell from '../ExercisesCell'
-import Modal from '../Modal/Modal'
-
-/* Default */
-const defaultSetGroup = {
-  exerciseId: 1,
-}
 
 /* Types */
 type Props = {
@@ -38,6 +34,7 @@ export function WorkoutFormButtonGroup({
   disabled,
 }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalContent, setModalContent] = useState<'new' | 'select'>('select')
 
   /* Mutations */
   // Set
@@ -97,7 +94,7 @@ export function WorkoutFormButtonGroup({
   const workoutMutation = useWorkoutMutation({
     onSaveSuccess: ({ saveWorkout }) => {
       console.log(`WORKOUT SAVED`, saveWorkout)
-      //TODO: Navigate away
+      //TODO: Show a success modal
     },
   })
 
@@ -142,7 +139,7 @@ export function WorkoutFormButtonGroup({
   }
 
   /* Functions */
-  const selectExercise = (id:number) => {
+  const selectExercise = (id: number) => {
     setGroupMutation.createSetGroup.mutation({
       variables: {
         input: {
@@ -152,8 +149,13 @@ export function WorkoutFormButtonGroup({
         },
       },
     })
+    setIsModalOpen(false)
   }
 
+  const handleNewExercise = (id: number) => {
+    selectExercise(id)
+    setModalContent('select')
+  }
 
   /* Render */
   return (
@@ -174,9 +176,23 @@ export function WorkoutFormButtonGroup({
         Finish Workout
       </button>
 
-            {/* Modal for the exercise details */}
-            <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
-        <ExercisesCell selectExercise={selectExercise}/>
+      {/* Modal for the exercise details */}
+      <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
+        <>
+          {/* Select existing exercise */}
+          {modalContent === 'select' && (
+            <ExercisesCell
+              close={() => setIsModalOpen(false)}
+              selectExercise={selectExercise}
+              createExercise={() => setModalContent('new')}
+            />
+          )}
+
+          {/* Create a new exercise */}
+          {modalContent === 'new' && (
+            <NewExercise handleNewExercise={handleNewExercise} />
+          )}
+        </>
       </Modal>
     </div>
   )

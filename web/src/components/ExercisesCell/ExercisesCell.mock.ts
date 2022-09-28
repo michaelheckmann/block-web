@@ -1,11 +1,11 @@
 // Define your own mock data here:
 export const standard = (/* vars, { ctx, req } */) => ({
-  exercises: [
-    { id: 42, name: 'Squat' },
-    { id: 43, name: 'Bench Press (Smith Machine)' },
-    { id: 44, name: 'Skullcrusher (Dumbbell)' },
-    { id: 45, name: 'Skullcrusher (Dumbbell)' },
-    { id: 46, name: 'Vertical Leg Press' },
-    { id: 47, name: 'Seated Calf Press' },
+  exercisesByUserId: [
+    { userId: 1, id: 42, name: 'Squat' },
+    { userId: 1, id: 43, name: 'Bench Press (Smith Machine)' },
+    { userId: 1, id: 44, name: 'Skullcrusher (Dumbbell)' },
+    { userId: 1, id: 45, name: 'Skullcrusher (Dumbbell)' },
+    { userId: 1, id: 46, name: 'Vertical Leg Press' },
+    { userId: 1, id: 47, name: 'Seated Calf Press' },
   ],
 })

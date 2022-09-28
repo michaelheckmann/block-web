@@ -77,9 +77,9 @@ const ExerciseSelector = ({ exercises, handleExerciseSelect }: Props) => {
   /* Render */
   return (
     <div>
-      <div className="relative mb-4 text-gray-900 bg-gray-100 border-gray-300 rounded-sm border-1">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <MagnifyingGlassIcon className="w-4 h-4 text-gray-500" />
+      <div className="relative mb-4 rounded-sm border-1 border-gray-300 bg-gray-100 text-gray-900">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <MagnifyingGlassIcon className="h-4 w-4 text-gray-500" />
         </div>
         <input
           value={query}
@@ -93,12 +93,12 @@ const ExerciseSelector = ({ exercises, handleExerciseSelect }: Props) => {
           placeholder="Search for an exercise"
         />
       </div>
-      <ul className="flex flex-col border-gray-300 divide-gray-300 rounded-sm divide-y-1 border-1">
+      <ul className="flex flex-col divide-y-1 divide-gray-300 rounded-sm border-1 border-gray-300">
         {exerciseList.map((item) => {
           return (
             <li
               key={item.id}
-              className="px-2 py-4 transition cursor-pointer odd:bg-gray-100 even:bg-white hover:bg-gray-200"
+              className="cursor-pointer px-2 py-4 transition odd:bg-gray-100 even:bg-white hover:bg-gray-200"
               onClick={() => onExerciseSelect(item)}
             >
               <p className="tracking-wide">

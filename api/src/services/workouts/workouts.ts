@@ -10,6 +10,16 @@ export const workouts: QueryResolvers['workouts'] = () => {
   return db.workout.findMany()
 }
 
+export const workoutsByUserId: QueryResolvers['workoutsByUserId'] = ({
+  id,
+}) => {
+  return db.workout.findMany({
+    where: {
+      userId: id,
+    },
+  })
+}
+
 export const workout: QueryResolvers['workout'] = ({ id }) => {
   return db.workout.findUnique({
     where: { id },

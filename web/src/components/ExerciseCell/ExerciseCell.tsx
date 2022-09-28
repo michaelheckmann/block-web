@@ -1,10 +1,10 @@
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import type { CellFailureProps, CellSuccessProps } from '@redwoodjs/web'
+import Exercise from 'src/components/Exercise'
 import type {
   FindExerciseQuery,
   FindExerciseQueryVariables,
 } from 'types/graphql'
-import Exercise from '../Exercise/Exercise'
 
 export const QUERY = gql`
   query FindExerciseQuery($id: Int!) {

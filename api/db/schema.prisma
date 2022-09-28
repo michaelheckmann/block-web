@@ -17,6 +17,9 @@ model Workout {
   templateId Int?
   template   Template? @relation(fields: [templateId], references: [id])
 
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
@@ -56,6 +59,9 @@ model Exercise {
 
   setGroups SetGroup[]
 
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
@@ -66,12 +72,16 @@ model Template {
 
   workouts Workout[]
 
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model User {
   id                  Int              @id @default(autoincrement())
+  name                String
   email               String           @unique
   hashedPassword      String
   salt                String
@@ -79,6 +89,9 @@ model User {
   resetTokenExpiresAt DateTime?
   webAuthnChallenge   String?          @unique
   credentials         UserCredential[]
+  Workout             Workout[]
+  Exercise            Exercise[]
+  Template            Template[]
 }
 
 model UserCredential {

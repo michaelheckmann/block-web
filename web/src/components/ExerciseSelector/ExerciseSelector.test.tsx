@@ -1,5 +1,5 @@
 import { render } from '@redwoodjs/testing/web'
-import { standard } from '../ExercisesCell/ExercisesCell.mock'
+import { standard } from 'src/components/ExercisesCell/ExercisesCell.mock'
 
 import ExerciseSelector from './ExerciseSelector'
 

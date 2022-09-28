@@ -9,11 +9,13 @@ export const schema = gql`
 
   type Query {
     templates: [Template!]! @requireAuth
+    templatesByUserId(id: Int!): [Template!]! @requireAuth
     template(id: Int!): Template @requireAuth
   }
 
   input CreateTemplateInput {
     name: String!
+    userId: Int!
   }
 
   input UpdateTemplateInput {

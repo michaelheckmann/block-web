@@ -3,7 +3,7 @@ import { RedwoodApolloProvider } from '@redwoodjs/web/dist/apollo'
 import Set, { SetProps } from 'src/components/Set'
 import { generateWorkoutObject, sortWorkout } from 'src/components/WorkoutCell'
 import { standard } from 'src/components/WorkoutCell/WorkoutCell.mock'
-import { WorkoutFormType } from '../types/WorkoutFormType'
+import { WorkoutFormType } from 'src/utils/types/WorkoutFormType'
 
 /*  It's a wrapper for the SetGroup component that
     allows us to pass in custom props to the component and

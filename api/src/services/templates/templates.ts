@@ -1,6 +1,6 @@
 import type {
-  QueryResolvers,
   MutationResolvers,
+  QueryResolvers,
   TemplateResolvers,
 } from 'types/graphql'
 
@@ -8,6 +8,16 @@ import { db } from 'src/lib/db'
 
 export const templates: QueryResolvers['templates'] = () => {
   return db.template.findMany()
+}
+
+export const templatesByUserId: QueryResolvers['templatesByUserId'] = ({
+  id,
+}) => {
+  return db.template.findMany({
+    where: {
+      userId: id,
+    },
+  })
 }
 
 export const template: QueryResolvers['template'] = ({ id }) => {

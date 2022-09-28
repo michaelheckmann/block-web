@@ -1,7 +1,9 @@
+import { Success } from 'src/components/ExercisesCell'
+import { standard } from 'src/components/ExercisesCell/ExercisesCell.mock'
+
 import { Dialog } from '@headlessui/react'
 import { useState } from 'react'
 import ExerciseCell from 'src/components/ExerciseCell'
-import ExercisesCell from 'src/components/ExercisesCell'
 import Modal from 'src/components/Modal/Modal'
 
 type Props = {
@@ -86,7 +88,7 @@ export const ExerciseModalProps: Props = {
 export const ExerciseSelectorModalProps: Props = {
   content: () => (
     <>
-      <ExercisesCell />
+      <Success {...standard()} />
     </>
   ),
 }

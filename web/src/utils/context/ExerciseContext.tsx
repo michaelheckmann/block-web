@@ -1,7 +1,6 @@
-import React from 'react'
 import Exercise, { ExerciseProps } from 'src/components/Exercise/Exercise'
 import { standard } from 'src/components/ExerciseCell/ExerciseCell.mock'
-import { replaceIdWithUniqueId } from '../functions/replaceIdWithUniqueId'
+import { replaceIdWithUniqueId } from 'src/utils/functions/replaceIdWithUniqueId'
 
 function ExerciseContext(args: ExerciseProps) {
   return <Exercise {...args} />

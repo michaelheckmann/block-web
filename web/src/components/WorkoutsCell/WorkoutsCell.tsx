@@ -2,11 +2,12 @@ import type { FindWorkouts } from 'types/graphql'
 
 import type { CellFailureProps, CellSuccessProps } from '@redwoodjs/web'
 
+import { useAuth } from '@redwoodjs/auth'
 import Workouts from 'src/components/Workouts'
 
 export const QUERY = gql`
-  query FindWorkouts {
-    workouts {
+  query FindWorkouts($id: Int!) {
+    workoutsByUserId(id: $id) {
       id
       name
       done
@@ -25,6 +26,19 @@ export const Failure = ({ error }: CellFailureProps) => (
   <pre className="rw-cell-error">{JSON.stringify(error, null, 4)}</pre>
 )
 
-export const Success = ({ workouts }: CellSuccessProps<FindWorkouts>) => {
-  return <Workouts workouts={workouts} />
+export const Success = ({
+  workoutsByUserId,
+}: CellSuccessProps<FindWorkouts>) => {
+  return <Workouts workouts={workoutsByUserId} />
+}
+
+export const beforeQuery = (props) => {
+  const { currentUser } = useAuth()
+  return {
+    variables: {
+      ...props,
+      id: currentUser.id,
+    },
+    fetchPolicy: 'cache-and-network',
+  }
 }
