@@ -1,3 +1,4 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 # BLOCK 💪💾
 **Important:** This was the first approach towards creating a workout app. Unfortunately, a web-only solution is not the right approach. Head over to the [LIFT repository](https://github.com/michaelheckmann/lift) for the React Native app.
 
